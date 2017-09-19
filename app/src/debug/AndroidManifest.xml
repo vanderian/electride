@@ -1,0 +1,12 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="sk.vander.electride"
+    >
+
+    <application
+        android:name=".DebugApp"
+        android:theme="@style/AppTheme"
+        tools:replace="name"
+        />
+</manifest>
