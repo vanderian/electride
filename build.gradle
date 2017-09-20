@@ -32,3 +32,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext.props = new Properties()
+if (file("tokens.properties").exists()) {
+    file("tokens.properties").withInputStream {
+        stream -> ext.props.load(stream)
+    }
+}

@@ -4,7 +4,7 @@ android {
 
 	defaultConfig {
 		minSdkVersion rootProject.ext.minSdkVersion
-		targetSdkVersion rootProject.ext.compileSdkVersion
+		targetSdkVersion 23
 		// Espresso test runner
 		testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 	}

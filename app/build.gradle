@@ -14,6 +14,7 @@ android {
         applicationId "sk.vander.electride"
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "MAPBOX_TOKEN", "\"${rootProject.ext.props.mapbox}\"")
     }
 
     buildTypes {
@@ -31,9 +32,14 @@ kapt {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.appcompat_v7
+    implementation deps.design
     implementation deps.constraint_layout
     implementation deps.rxbindings_kt
     implementation deps.rxbindings_appcompat_kt
+    implementation deps.rxbindings_design_kt
+    implementation (deps.mapbox) {
+        transitive = true
+    }
     kapt deps.butterknife_compiler
 
     implementation deps.kotlin
@@ -46,6 +52,8 @@ dependencies {
     compileOnly deps.javax_annotations
     implementation deps.picasso
     implementation deps.rounded_image
+    implementation deps.rx_location
+    implementation deps.rx_permissions
 
     debugImplementation deps.leakcanary
     debugImplementation deps.blockcanary
@@ -55,7 +63,7 @@ dependencies {
 
     testImplementation deps.junit
 
-    androidTestImplementation (deps.espresso, {
+    androidTestImplementation(deps.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
