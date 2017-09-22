@@ -1,14 +1,21 @@
 package sk.vander.electride.ui.routes
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import butterknife.BindView
 import com.jakewharton.rxbinding2.view.clicks
+import com.tbruyelle.rxpermissions2.RxPermissions
 import sk.vander.electride.R
+import sk.vander.electride.service.LocationService
 import sk.vander.electride.ui.routes.RoutesViewModel.FabMode.START
+import sk.vander.electride.ui.routes.RoutesViewModel.FabMode.STOP
 import sk.vander.lib.ui.BaseFragment
 
 /**
@@ -32,7 +39,16 @@ class RoutesFragment : BaseFragment<RoutesViewModel>() {
     disposable.addAll(
         fab.clicks()
             .map { fab.tag as RoutesViewModel.FabMode }
-            .flatMapMaybe(viewModel.onFab(activity))
+            .flatMapCompletable {
+              when (it) {
+                STOP -> viewModel.onStop()
+                START -> RxPermissions(activity).request(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
+                    .firstOrError().filter { it }
+                    .map { Intent(context, LocationService::class.java) }
+                    .doOnSuccess { ContextCompat.startForegroundService(context, it) }
+                    .flatMapCompletable { viewModel.onStart() }
+              }
+            }
             .subscribe(),
 
         viewModel.fabMode()
