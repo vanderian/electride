@@ -19,14 +19,13 @@ import javax.inject.Inject
 /**
  * @author marian on 20.9.2017.
  */
-abstract class BaseFragment<T: ViewModel>: Fragment(), Injectable {
+abstract class BaseFragment<T: ViewModel>(private val clazz: Class<T>): Fragment(), Injectable {
   private lateinit var unbinder: Unbinder
   protected val disposable = CompositeDisposable()
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
   lateinit var viewModel: T
 
   @LayoutRes abstract fun layout(): Int
-  abstract fun getViewModelClass(): Class<T>
 
   override fun onAttach(context: Context) {
     super.onAttach(context)
@@ -34,7 +33,7 @@ abstract class BaseFragment<T: ViewModel>: Fragment(), Injectable {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelClass()]
+    viewModel = ViewModelProviders.of(this, viewModelFactory)[clazz]
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

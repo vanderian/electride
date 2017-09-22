@@ -21,11 +21,10 @@ import sk.vander.lib.ui.BaseFragment
 /**
  * @author marian on 20.9.2017.
  */
-class RoutesFragment : BaseFragment<RoutesViewModel>() {
+class RoutesFragment : BaseFragment<RoutesViewModel>(RoutesViewModel::class.java) {
   @BindView(R.id.recycler_routes) lateinit var routes: RecyclerView
   @BindView(R.id.fab_new_route) lateinit var fab: FloatingActionButton
 
-  override fun getViewModelClass(): Class<RoutesViewModel> = RoutesViewModel::class.java
   override fun layout(): Int = R.layout.screen_routes
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +53,15 @@ class RoutesFragment : BaseFragment<RoutesViewModel>() {
         viewModel.fabMode()
             .doOnNext { fab.tag = it }
             .map { if (it == START) R.drawable.ic_add_black_24dp else R.drawable.ic_clear_black_24dp }
-            .subscribe { res -> fab.setImageResource(res) }
+            .subscribe { res -> fab.setImageResource(res) },
+        viewModel.adapter
+            .itemEventSource
+            .subscribe {
+              activity.supportFragmentManager.beginTransaction()
+                  .replace(R.id.container_id, RouteDetailFragment.newInstance(it.id))
+                  .addToBackStack(null)
+                  .commit()
+            }
     )
   }
 }

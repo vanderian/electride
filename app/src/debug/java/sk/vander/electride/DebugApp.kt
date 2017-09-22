@@ -31,7 +31,7 @@ class DebugApp : App() {
 //    ButterKnife.setDebug(true)
     Picasso.setSingletonInstance(Picasso.Builder(this).loggingEnabled(true).build())
 
-    StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().penaltyDeath().detectAll().build())
-    StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().penaltyDeath().detectAll().build())
+    StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().penaltyLog().penaltyDeath().detectAll().build())
+    StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().penaltyLog().penaltyDeath().detectAll().build())
   }
 }
