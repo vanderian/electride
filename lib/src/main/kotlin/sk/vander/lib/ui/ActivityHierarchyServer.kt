@@ -39,7 +39,7 @@ interface ActivityHierarchyServer : Application.ActivityLifecycleCallbacks {
         servers.forEach { it.onActivityDestroyed(activity) }
   }
 
-  class Empty : ActivityHierarchyServer {
+  open class Empty : ActivityHierarchyServer {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
     override fun onActivityStarted(activity: Activity) {}
     override fun onActivityResumed(activity: Activity) {}

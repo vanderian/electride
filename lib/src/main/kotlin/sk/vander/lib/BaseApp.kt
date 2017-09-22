@@ -19,7 +19,10 @@ abstract class BaseApp : DaggerApplication() {
   override fun onCreate() {
     super.onCreate()
 
-    registerActivityLifecycleCallbacks(activityHierarchyServer)
+    registerActivityLifecycleCallbacks(ActivityHierarchyServer.Proxy().apply {
+      addServer(activityHierarchyServer)
+      addServer(Injector)
+    })
 
     RxJavaPlugins.setErrorHandler { Timber.e(it, "Uncaught RxJava error") }
   }

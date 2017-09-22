@@ -29,6 +29,9 @@ dependencies {
     api deps.rxjava_kotlin
     api deps.timber
 
+    api deps.lifecycle_runtime
+    api deps.lifecycle_ext
+
     api deps.dagger
     api deps.dagger_android
     api deps.autodagger

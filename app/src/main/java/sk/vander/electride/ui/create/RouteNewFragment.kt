@@ -1,4 +1,4 @@
-package sk.vander.electride.fragment
+package sk.vander.electride.ui.create
 
 import android.os.Bundle
 import android.view.View
@@ -12,16 +12,15 @@ import com.mapbox.mapboxsdk.maps.MapboxMap
 import io.reactivex.Single
 import sk.vander.electride.R
 import sk.vander.lib.ui.BaseFragment
-import javax.inject.Inject
 
 /**
  * @author marian on 20.9.2017.
  */
-class RouteNewFragment : BaseFragment() {
+class RouteNewFragment : BaseFragment<RouteNewViewModel>() {
   @BindView(R.id.text_location) lateinit var location: TextView
   @BindView(R.id.map) lateinit var map: MapView
-  @Inject lateinit var viewModel: RouteNewViewModel
 
+  override fun getViewModelClass(): Class<RouteNewViewModel> = RouteNewViewModel::class.java
   override fun layout(): Int = R.layout.screen_route_new
 
   override fun onResume() {

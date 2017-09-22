@@ -1,6 +1,7 @@
-package sk.vander.electride.fragment
+package sk.vander.electride.ui.create
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModel
 import android.location.Location
 import com.google.android.gms.location.LocationRequest
 import com.patloew.rxlocation.RxLocation
@@ -14,7 +15,7 @@ import javax.inject.Inject
 /**
  * @author marian on 20.9.2017.
  */
-class RouteNewViewModel @Inject constructor(private val rxLocation: RxLocation) {
+class RouteNewViewModel @Inject constructor(private val rxLocation: RxLocation): ViewModel() {
   private val locationRequest: LocationRequest = LocationRequest.create()
       .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
       .setInterval(5000L)

@@ -1,21 +1,21 @@
 package sk.vander.lib.ui
 
-import android.app.Fragment
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.squareup.coordinators.CoordinatorProvider
 import com.squareup.coordinators.Coordinators
-import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasFragmentInjector
+import dagger.android.support.HasSupportFragmentInjector
+import sk.vander.lib.Injectable
 import sk.vander.lib.R
 import javax.inject.Inject
 
-abstract class FragmentActivity : AppCompatActivity(), HasFragmentInjector {
+abstract class FragmentActivity : AppCompatActivity(), HasSupportFragmentInjector, Injectable {
 
   @Inject lateinit var viewContainer: ViewContainer
   @Inject lateinit var coordinatorProvider: CoordinatorProvider
@@ -23,7 +23,6 @@ abstract class FragmentActivity : AppCompatActivity(), HasFragmentInjector {
   private lateinit var container: ViewGroup
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    AndroidInjection.inject(this)
     super.onCreate(savedInstanceState)
 
     // calls setContentView()
@@ -40,5 +39,5 @@ abstract class FragmentActivity : AppCompatActivity(), HasFragmentInjector {
     container.addView(frame)
   }
 
-  override fun fragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
+  override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 }

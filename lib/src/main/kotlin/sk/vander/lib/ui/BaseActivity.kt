@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.coordinators.CoordinatorProvider
 import com.squareup.coordinators.Coordinators
-import dagger.android.AndroidInjection
 import flow.*
 import javax.inject.Inject
 
@@ -24,7 +23,6 @@ abstract class BaseActivity : AppCompatActivity() {
   protected abstract fun defaultKey(): LayoutKey
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    AndroidInjection.inject(this)
     super.onCreate(savedInstanceState)
 
     // calls setContentView()

@@ -1,4 +1,4 @@
-def support_version = '26.0.2'
+def support_version = '26.1.0'
 ext.deps = [
         appcompat_v7                : "com.android.support:appcompat-v7:$support_version",
         support_v4                  : "com.android.support:support-v4:$support_version",
@@ -10,12 +10,18 @@ ext.deps = [
         annotations                 : "com.android.support:support-annotations:$support_version",
         multidex                    : "com.android.support:multidex:1.0.1",
         constraint_layout           : 'com.android.support.constraint:constraint-layout:1.0.2',
+        lifecycle_runtime           : 'android.arch.lifecycle:runtime:1.0.0',
+        lifecycle_ext               : 'android.arch.lifecycle:extensions:1.0.0-alpha9-1',
+        lifecycle_compiler          : 'android.arch.lifecycle:compiler:1.0.0-alpha9-1',
+        room                        : 'android.arch.persistence.room:runtime:1.0.0-alpha9-1',
+        room_compiler               : 'android.arch.persistence.room:compiler:1.0.0-alpha9-1',
+        room_rx                     : 'android.arch.persistence.room:rxjava2:1.0.0-alpha9-1',
 
         kotlin                      : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
         kotlin_jre7                 : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
         kotterknife                 : 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT',
 
-        butterknife                 : 'com.jakewharton:butterknife:8.7.0',
+        butterknife                 : 'com.jakewharton:butterknife:8.8.1',
         butterknife_compiler        : 'com.jakewharton:butterknife-compiler:8.7.0',
         jetpack_bindings_preferences: 'com.github.vmironov.jetpack:jetpack-bindings-preferences:0.14.2',
         calligraphy                 : 'uk.co.chrisjenx:calligraphy:2.3.0',
@@ -65,8 +71,8 @@ ext.deps = [
         mapbox                      : 'com.mapbox.mapboxsdk:mapbox-android-sdk:5.1.3@aar',
 
         junit                       : 'junit:junit:4.12',
-        espresso                    : 'com.android.support.test.espresso:espresso-core:2.2.2',
-        espresso_contrib            : 'com.android.support.test.espresso:espresso-contrib:2.2.2',
+        espresso                    : 'com.android.support.test.espresso:espresso-core:3.0.1',
+        espresso_contrib            : 'com.android.support.test.espresso:espresso-contrib:3.0.1',
         test_runner                 : 'com.android.support.test:runner:0.5',
         test_rules                  : 'com.android.support.test:rules:0.5',
         mockito                     : 'org.mockito:mockito-android:2.8.47',
@@ -93,14 +99,14 @@ ext.deps = [
         rxbindings_design_kt        : 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.0.0',
         rxbindings_recyclerview     : 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0',
         rxbindings_recyclerview_kt  : 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.0.0',
-        rxjava                      : 'io.reactivex.rxjava2:rxjava:2.1.1',
+        rxjava                      : 'io.reactivex.rxjava2:rxjava:2.1.3',
         rxjava_android              : 'io.reactivex.rxjava2:rxandroid:2.0.1',
         rxjava_interop              : 'com.github.akarnokd:rxjava2-interop:0.10.1',
         rx_pref                     : 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC2',
         rx_relay                    : 'com.jakewharton.rxrelay2:rxrelay:2.0.0',
         rx_anim                     : 'com.bartoszlipinski.rxanimationbinding:rxanimationbinding:1.1.0',
         rx_anim_support_v4          : 'com.bartoszlipinski.rxanimationbinding:rxanimationbinding-support-v4:1.1.0',
-        rxjava_kotlin               : 'io.reactivex.rxjava2:rxkotlin:2.0.3',
+        rxjava_kotlin               : 'io.reactivex.rxjava2:rxkotlin:2.1.0',
         rx_location                 : 'com.patloew.rxlocation:rxlocation:1.0.3',
         rx_permissions              : 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4',
 

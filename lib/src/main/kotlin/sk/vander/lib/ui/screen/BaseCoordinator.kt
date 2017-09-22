@@ -15,13 +15,9 @@ import timber.log.Timber
 abstract class BaseCoordinator : Coordinator() {
   protected val disposable = CompositeDisposable()
 
-  abstract fun onAttach(view: View)
-  abstract fun onDetach(view: View)
-
   override fun attach(view: View) {
     ButterKnife.bind(this, view)
     Timber.d("coordinator attached %s", javaClass.name)
-    onAttach(view)
   }
 
   override fun detach(view: View) {

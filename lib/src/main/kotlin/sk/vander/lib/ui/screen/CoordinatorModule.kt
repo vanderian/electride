@@ -9,8 +9,7 @@ import sk.vander.lib.annotations.ActivityScope
 import javax.inject.Provider
 
 
-@Module(includes = arrayOf(CoordinatorModule.CoordinatorsMap::class))
-//@Module
+@Module(includes = arrayOf(CoordinatorModule.MapModule::class))
 object CoordinatorModule {
 
   @JvmStatic @Provides @ActivityScope fun providesCoordinatorProvider(
@@ -31,7 +30,7 @@ object CoordinatorModule {
   }
 
   @Module
-  abstract class CoordinatorsMap {
-    @Multibinds abstract fun provideCoordinatorsMap(): Map<Class<out Coordinator>, Coordinator>
+  abstract class MapModule {
+    @Multibinds abstract fun provideMap(): Map<Class<out Coordinator>, Coordinator>
   }
 }
