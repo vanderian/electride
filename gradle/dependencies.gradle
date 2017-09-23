@@ -1,4 +1,5 @@
 def support_version = '26.1.0'
+def arch_version = '1.0.0-beta1'
 ext.deps = [
         appcompat_v7                : "com.android.support:appcompat-v7:$support_version",
         support_v4                  : "com.android.support:support-v4:$support_version",
@@ -11,11 +12,11 @@ ext.deps = [
         multidex                    : "com.android.support:multidex:1.0.1",
         constraint_layout           : 'com.android.support.constraint:constraint-layout:1.0.2',
         lifecycle_runtime           : 'android.arch.lifecycle:runtime:1.0.0',
-        lifecycle_ext               : 'android.arch.lifecycle:extensions:1.0.0-alpha9-1',
-        lifecycle_compiler          : 'android.arch.lifecycle:compiler:1.0.0-alpha9-1',
-        room                        : 'android.arch.persistence.room:runtime:1.0.0-alpha9-1',
-        room_compiler               : 'android.arch.persistence.room:compiler:1.0.0-alpha9-1',
-        room_rx                     : 'android.arch.persistence.room:rxjava2:1.0.0-alpha9-1',
+        lifecycle_ext               : "android.arch.lifecycle:extensions:$arch_version",
+        lifecycle_compiler          : "android.arch.lifecycle:compiler:$arch_version",
+        room                        : "android.arch.persistence.room:runtime:$arch_version",
+        room_compiler               : "android.arch.persistence.room:compiler:$arch_version",
+        room_rx                     : "android.arch.persistence.room:rxjava2:$arch_version",
 
         kotlin                      : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
         kotlin_jre7                 : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
@@ -37,6 +38,7 @@ ext.deps = [
         coordinators                : 'com.squareup.coordinators:coordinators:0.3',
         databinding_compiler        : 'com.android.databinding:compiler:2.4.0-alpha1',
         rounded_image               : 'com.makeramen:roundedimageview:2.3.0',
+        fab_menu                    : 'com.github.kobakei:MaterialFabSpeedDial:1.1.7',
 
         timber                      : 'com.jakewharton.timber:timber:4.5.1',
         gson                        : 'com.google.code.gson:gson:2.8.1',
@@ -69,6 +71,7 @@ ext.deps = [
         guava                       : 'com.google.guava:guava:22.0-android',
         flow                        : 'com.squareup.flow:flow:1.0.0-alpha3',
         mapbox                      : 'com.mapbox.mapboxsdk:mapbox-android-sdk:5.1.3@aar',
+        mapbox_services_rx          : 'com.mapbox.mapboxsdk:mapbox-java-services-rx:2.2.4',
 
         junit                       : 'junit:junit:4.12',
         espresso                    : 'com.android.support.test.espresso:espresso-core:3.0.1',

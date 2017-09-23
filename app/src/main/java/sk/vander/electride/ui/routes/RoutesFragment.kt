@@ -8,22 +8,27 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
 import butterknife.BindView
+import com.jakewharton.rxbinding2.support.v7.widget.itemClicks
 import com.jakewharton.rxbinding2.view.clicks
 import com.tbruyelle.rxpermissions2.RxPermissions
 import sk.vander.electride.R
 import sk.vander.electride.service.LocationService
+import sk.vander.electride.ui.routes.directions.DirectionsFragment
 import sk.vander.electride.ui.routes.RoutesViewModel.FabMode.START
 import sk.vander.electride.ui.routes.RoutesViewModel.FabMode.STOP
+import sk.vander.electride.ui.routes.detail.RouteDetailFragment
 import sk.vander.lib.ui.BaseFragment
 
 /**
  * @author marian on 20.9.2017.
  */
-class RoutesFragment : BaseFragment<RoutesViewModel>(RoutesViewModel::class.java) {
+class RoutesFragment : BaseFragment<RoutesViewModel>(RoutesViewModel::class) {
   @BindView(R.id.recycler_routes) lateinit var routes: RecyclerView
   @BindView(R.id.fab_new_route) lateinit var fab: FloatingActionButton
+  @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
 
   override fun layout(): Int = R.layout.screen_routes
 
@@ -31,6 +36,8 @@ class RoutesFragment : BaseFragment<RoutesViewModel>(RoutesViewModel::class.java
     super.onViewCreated(view, savedInstanceState)
     routes.layoutManager = LinearLayoutManager(context)
     routes.adapter = viewModel.adapter
+    toolbar.inflateMenu(R.menu.menu_fab_routes)
+    toolbar.setTitle(R.string.label_routes)
   }
 
   override fun onStart() {
@@ -47,6 +54,15 @@ class RoutesFragment : BaseFragment<RoutesViewModel>(RoutesViewModel::class.java
                     .doOnSuccess { ContextCompat.startForegroundService(context, it) }
                     .flatMapCompletable { viewModel.onStart() }
               }
+            }
+            .subscribe(),
+        toolbar.itemClicks()
+            .filter { it.itemId == R.id.action_from_map }
+            .doOnNext {
+              activity.supportFragmentManager.beginTransaction()
+                  .replace(R.id.container_id, DirectionsFragment())
+                  .addToBackStack(null)
+                  .commit()
             }
             .subscribe(),
 

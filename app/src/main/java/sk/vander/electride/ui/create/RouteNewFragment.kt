@@ -16,7 +16,7 @@ import sk.vander.lib.ui.BaseFragment
 /**
  * @author marian on 20.9.2017.
  */
-class RouteNewFragment : BaseFragment<RouteNewViewModel>(RouteNewViewModel::class.java) {
+class RouteNewFragment : BaseFragment<RouteNewViewModel>(RouteNewViewModel::class) {
   @BindView(R.id.text_location) lateinit var location: TextView
   @BindView(R.id.map) lateinit var map: MapView
 

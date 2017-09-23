@@ -34,15 +34,22 @@ dependencies {
     implementation deps.appcompat_v7
     implementation deps.design
     implementation deps.constraint_layout
+    implementation deps.lifecycle_ext
+    kapt deps.lifecycle_compiler
+    implementation deps.room
+    implementation deps.room_rx
+    kapt deps.room_compiler
     implementation deps.rxbindings_kt
     implementation deps.rxbindings_support_kt
     implementation deps.rxbindings_appcompat_kt
     implementation deps.rxbindings_design_kt
     implementation deps.rxbindings_recyclerview_kt
-    implementation (deps.mapbox) {
-        transitive = true
-    }
+    implementation(deps.mapbox) { transitive = true }
+    implementation deps.mapbox_services_rx
     kapt deps.butterknife_compiler
+    implementation deps.picasso
+    implementation deps.rounded_image
+    implementation deps.fab_menu
 
     implementation deps.kotlin
     implementation deps.paperparcel
@@ -52,18 +59,14 @@ dependencies {
     kapt deps.dagger_android_compiler
     kapt deps.autodagger_compiler
     compileOnly deps.javax_annotations
-    implementation deps.picasso
-    implementation deps.rounded_image
     implementation deps.rx_location
     implementation deps.rx_permissions
 
-    implementation deps.lifecycle_runtime
-    implementation deps.lifecycle_ext
-    kapt deps.lifecycle_compiler
-    implementation deps.room
-    implementation deps.room_rx
-    kapt deps.room_compiler
-
+    implementation deps.retrofit
+    implementation deps.retrofit_rxjava
+    implementation deps.retrofit_gson
+    implementation deps.okhttp
+    implementation deps.okhttp_logging
 
     debugImplementation deps.leakcanary
     debugImplementation deps.blockcanary

@@ -15,11 +15,12 @@ import butterknife.Unbinder
 import io.reactivex.disposables.CompositeDisposable
 import sk.vander.lib.Injectable
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 /**
  * @author marian on 20.9.2017.
  */
-abstract class BaseFragment<T: ViewModel>(private val clazz: Class<T>): Fragment(), Injectable {
+abstract class BaseFragment<T: ViewModel>(private val clazz: KClass<T>): Fragment(), Injectable {
   private lateinit var unbinder: Unbinder
   protected val disposable = CompositeDisposable()
   @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -33,7 +34,7 @@ abstract class BaseFragment<T: ViewModel>(private val clazz: Class<T>): Fragment
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    viewModel = ViewModelProviders.of(this, viewModelFactory)[clazz]
+    viewModel = ViewModelProviders.of(this, viewModelFactory)[clazz.java]
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

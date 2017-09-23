@@ -8,14 +8,18 @@ import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import io.reactivex.Single
 import sk.vander.electride.R
+import sk.vander.electride.R.id.map
 import sk.vander.lib.ui.BaseFragment
+import kotlin.reflect.KClass
 
 /**
  * @author marian on 20.9.2017.
  */
-abstract class MapBoxFragment<T : ViewModel>(clazz: Class<T>) : BaseFragment<T>(clazz) {
+abstract class MapBoxFragment<T : ViewModel>(clazz: KClass<T>) : BaseFragment<T>(clazz) {
   @BindView(R.id.mapbox_view) lateinit var map: MapView
   val mapBox = Single.create<MapboxMap> { emitter -> map.getMapAsync { emitter.onSuccess(it) } }
+
+  override fun layout(): Int = R.layout.screen_map
 
   override fun onResume() {
     super.onResume()

@@ -4,7 +4,8 @@ import android.arch.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import sk.vander.electride.ui.routes.RouteDetailViewModel
+import sk.vander.electride.ui.routes.directions.DirectionsViewModel
+import sk.vander.electride.ui.routes.detail.RouteDetailViewModel
 import sk.vander.electride.ui.routes.RoutesViewModel
 import sk.vander.lib.annotations.ViewModelKey
 
@@ -15,9 +16,12 @@ import sk.vander.lib.annotations.ViewModelKey
 abstract class ViewModelsModule {
 
   @Binds @IntoMap @ViewModelKey(RoutesViewModel::class)
-  abstract fun provideRoutesViewModel(routesViewModel: RoutesViewModel): ViewModel
+  abstract fun provideRoutesViewModel(viewModel: RoutesViewModel): ViewModel
 
   @Binds @IntoMap @ViewModelKey(RouteDetailViewModel::class)
-  abstract fun provideRouteDetailViewModel(routeDetailViewModel: RouteDetailViewModel): ViewModel
+  abstract fun provideRouteDetailViewModel(viewModel: RouteDetailViewModel): ViewModel
+
+  @Binds @IntoMap @ViewModelKey(DirectionsViewModel::class)
+  abstract fun providePickLocationViewModel(viewModel: DirectionsViewModel): ViewModel
 
 }

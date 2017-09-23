@@ -3,7 +3,8 @@ package sk.vander.electride
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import sk.vander.electride.service.LocationService
-import sk.vander.electride.ui.routes.RouteDetailFragment
+import sk.vander.electride.ui.routes.directions.DirectionsFragment
+import sk.vander.electride.ui.routes.detail.RouteDetailFragment
 import sk.vander.electride.ui.routes.RoutesFragment
 import sk.vander.lib.annotations.ActivityScope
 import sk.vander.lib.annotations.FragmentScope
@@ -22,6 +23,9 @@ object InjectorFactoriesModules {
 
     @FragmentScope @ContributesAndroidInjector()
     abstract fun contributeRouteDetailFragment(): RouteDetailFragment
+
+    @FragmentScope @ContributesAndroidInjector()
+    abstract fun contributePickLocationFragment(): DirectionsFragment
   }
 
   @Module

@@ -1,4 +1,4 @@
-package sk.vander.electride.ui.routes
+package sk.vander.electride.ui.routes.detail
 
 import android.arch.lifecycle.ViewModel
 import android.graphics.Color

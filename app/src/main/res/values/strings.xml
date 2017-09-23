@@ -3,4 +3,6 @@
     <string name="notification_location_title">a title</string>
     <string name="notification_location_content">a content</string>
     <string name="notification_location_ticker">a ticker text</string>
+    <string name="action_add_from_map">Add from map</string>
+    <string name="label_routes">Routes</string>
 </resources>
