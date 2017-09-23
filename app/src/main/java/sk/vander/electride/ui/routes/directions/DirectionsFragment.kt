@@ -10,9 +10,9 @@ import io.reactivex.Observable
 import sk.vander.electride.R
 import sk.vander.electride.ui.camera
 import sk.vander.electride.ui.common.MapBoxFragment
-import sk.vander.electride.ui.latLng
 import sk.vander.electride.ui.newLineAndCamera
 import sk.vander.electride.ui.point
+import sk.vander.electride.ui.text
 import sk.vander.lib.debug.log
 
 /**
@@ -35,14 +35,16 @@ class DirectionsFragment : MapBoxFragment<DirectionsViewModel>(DirectionsViewMod
             }
             .flatMapObservable { map ->
               map.mapClicks()
-                  .doOnNext { if (map.markers.size > 1) fab.show() }
                   .doOnDispose { fab.hide() }
-                  .doOnNext { map.addMarker(it.point(context, R.drawable.shape_dot, R.color.amber_600)) }
-                  .doOnNext { points.text = map.markers.toString() }
+                  .doOnNext {
+                    map.addMarker(it.point(context, R.drawable.shape_dot, R.color.amber_600))
+                    points.text = map.markers.toString()
+                    if (map.markers.size > 2) fab.show()
+                  }
                   .takeUntil(fab.clicks()).toList()
                   .flatMapObservable { viewModel.directions(it) }
                   .log("has direction")
-                  .doOnNext { points.text = it.waypoints.map { "Waypoint[${it.name} ${it.asPosition().latLng()}]" }.toString() }
+                  .doOnNext { points.text = it.text() }
                   .map(viewModel.polyline())
                   .doOnNext { map.newLineAndCamera(context, it) }
             }

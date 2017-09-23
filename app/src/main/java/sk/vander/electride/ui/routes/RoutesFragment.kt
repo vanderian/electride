@@ -16,10 +16,10 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.tbruyelle.rxpermissions2.RxPermissions
 import sk.vander.electride.R
 import sk.vander.electride.service.LocationService
-import sk.vander.electride.ui.routes.directions.DirectionsFragment
 import sk.vander.electride.ui.routes.RoutesViewModel.FabMode.START
 import sk.vander.electride.ui.routes.RoutesViewModel.FabMode.STOP
 import sk.vander.electride.ui.routes.detail.RouteDetailFragment
+import sk.vander.electride.ui.routes.directions.DirectionsFragment
 import sk.vander.lib.ui.BaseFragment
 
 /**

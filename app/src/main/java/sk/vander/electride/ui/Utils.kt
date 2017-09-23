@@ -15,12 +15,19 @@ import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.geometry.LatLngBounds
 import com.mapbox.mapboxsdk.maps.MapboxMap
+import com.mapbox.services.api.directions.v5.models.DirectionsResponse
 import com.mapbox.services.commons.models.Position
 import sk.vander.electride.R
 
 /**
  * @author marian on 23.9.2017.
  */
+fun DirectionsResponse.text() =
+    "Route[" +
+        "distance=${routes.single().distance}," +
+        "duration=${routes.single().duration}," +
+        waypoints.map { "Waypoint[${it.name} ${it.asPosition().latLng()}]" }.toString() +
+        "]"
 
 fun MapboxMap.newLineAndCamera(context: Context, polylineOptions: PolylineOptions) {
   removeAnnotations()
