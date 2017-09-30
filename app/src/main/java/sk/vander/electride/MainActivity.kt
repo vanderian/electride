@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import sk.vander.electride.service.LocationService
-import sk.vander.electride.ui.routes.RoutesFragment
+import sk.vander.electride.ui.routes.RoutesScreen
 import sk.vander.lib.ui.FragmentActivity
 
 /**
@@ -16,7 +16,7 @@ class MainActivity : FragmentActivity() {
     super.onCreate(savedInstanceState)
     if (savedInstanceState == null) {
       supportFragmentManager.beginTransaction()
-          .replace(R.id.container_id, RoutesFragment())
+          .replace(R.id.container_id, RoutesScreen())
           .commit()
     }
 

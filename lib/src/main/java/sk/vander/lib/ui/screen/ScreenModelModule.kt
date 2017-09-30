@@ -1,4 +1,4 @@
-package sk.vander.lib.ui.viewmodel
+package sk.vander.lib.ui.screen
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
@@ -11,10 +11,11 @@ import javax.inject.Provider
 /**
  * @author marian on 21.9.2017.
  */
-@Module(includes = arrayOf(ViewModelModule.MapModule::class))
-object ViewModelModule {
+@Module(includes = arrayOf(ScreenModelModule.MapModule::class))
+object ScreenModelModule {
 
-  @JvmStatic @Provides @ApplicationScope fun provideViewModelFactory(
+  @Suppress("UNCHECKED_CAST")
+  @JvmStatic @Provides @ApplicationScope fun provideModelFactory(
       creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
   ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

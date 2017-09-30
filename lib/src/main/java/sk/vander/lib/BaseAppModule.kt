@@ -7,12 +7,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjectionModule
 import sk.vander.lib.annotations.ApplicationScope
-import sk.vander.lib.ui.viewmodel.ViewModelModule
+import sk.vander.lib.ui.screen.ScreenModelModule
 
 @Module(
     includes = arrayOf(
         AndroidInjectionModule::class,
-        ViewModelModule::class
+        ScreenModelModule::class
     )
 )
 class BaseAppModule(private val app: Application) {

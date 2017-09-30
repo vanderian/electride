@@ -9,6 +9,7 @@ import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
+import android.view.View
 import com.mapbox.mapboxsdk.annotations.*
 import com.mapbox.mapboxsdk.camera.CameraUpdate
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
@@ -22,6 +23,9 @@ import sk.vander.electride.R
 /**
  * @author marian on 23.9.2017.
  */
+
+fun Boolean.visibility() = if (this) View.VISIBLE else View.GONE
+
 fun DirectionsResponse.text() =
     "Route[" +
         "distance=${routes.single().distance}," +

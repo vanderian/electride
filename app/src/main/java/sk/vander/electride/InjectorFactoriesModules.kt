@@ -3,11 +3,10 @@ package sk.vander.electride
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import sk.vander.electride.service.LocationService
-import sk.vander.electride.ui.routes.directions.DirectionsFragment
-import sk.vander.electride.ui.routes.detail.RouteDetailFragment
-import sk.vander.electride.ui.routes.RoutesFragment
+import sk.vander.electride.ui.routes.RoutesScreen
+import sk.vander.electride.ui.routes.directions.DirectionsScreen
 import sk.vander.lib.annotations.ActivityScope
-import sk.vander.lib.annotations.FragmentScope
+import sk.vander.lib.annotations.ScreenScope
 import sk.vander.lib.annotations.ServiceScope
 import sk.vander.lib.ui.screen.CoordinatorModule
 
@@ -17,15 +16,15 @@ import sk.vander.lib.ui.screen.CoordinatorModule
 object InjectorFactoriesModules {
 
   @Module
-  abstract class Fragments {
-    @FragmentScope @ContributesAndroidInjector()
-    abstract fun contributeRoutesFragment(): RoutesFragment
+  abstract class Screens {
+    @ScreenScope @ContributesAndroidInjector()
+    abstract fun contributeRoutesScreen(): RoutesScreen
 
-    @FragmentScope @ContributesAndroidInjector()
-    abstract fun contributeRouteDetailFragment(): RouteDetailFragment
+//    @ScreenScope @ContributesAndroidInjector()
+//    abstract fun contributeRouteDetailScreen(): RouteDetailScreen
 
-    @FragmentScope @ContributesAndroidInjector()
-    abstract fun contributePickLocationFragment(): DirectionsFragment
+    @ScreenScope @ContributesAndroidInjector()
+    abstract fun contributeDirectionsScreen(): DirectionsScreen
   }
 
   @Module
@@ -36,7 +35,7 @@ object InjectorFactoriesModules {
 
   @Module(includes = arrayOf(
       CoordinatorModule::class,
-      Fragments::class
+      Screens::class
   ))
   abstract class ActivityModules
 
