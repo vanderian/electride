@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import sk.vander.lib.Injectable
 import sk.vander.lib.R
+import sk.vander.lib.debug.log
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -73,8 +74,8 @@ abstract class Screen<T : ScreenModel<U, V>, U : Screen.State, V: Screen.Intents
   override fun onStart() {
     super.onStart()
     disposable.addAll(
-        model.state.subscribe { render(it) },
-        model.navigation.subscribe { navigate(it) },
+        model.state.log("screen state").subscribe { render(it) },
+        model.navigation.log("screen navigation").subscribe { navigate(it) },
         model.collectIntents(intents(), result)
     )
   }

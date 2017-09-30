@@ -42,8 +42,8 @@ class DirectionsModel @Inject constructor() : ScreenModel<DirectionState, Direct
                 .log("has direction")
                 .doOnSuccess { state.next { copy(response = it, polyline = it.polyline()) } }
           }
+          .doOnDispose { state.next { copy(loading = true) } }
           .subscribe()
-
 
   private fun MapboxMap.mapClicks() = Observable.create<LatLng> { emitter ->
     this.setOnMapClickListener { emitter.onNext(it) }

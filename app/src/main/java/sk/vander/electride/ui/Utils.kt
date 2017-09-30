@@ -19,19 +19,20 @@ import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.services.api.directions.v5.models.DirectionsResponse
 import com.mapbox.services.commons.models.Position
 import sk.vander.electride.R
+import java.util.concurrent.TimeUnit
 
 /**
  * @author marian on 23.9.2017.
  */
 
+fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
+
 fun Boolean.visibility() = if (this) View.VISIBLE else View.GONE
 
 fun DirectionsResponse.text() =
-    "Route[" +
-        "distance=${routes.single().distance}," +
-        "duration=${routes.single().duration}," +
-        waypoints.map { "Waypoint[${it.name} ${it.asPosition().latLng()}]" }.toString() +
-        "]"
+    "Distance=${routes.single().distance.div(1000).format(2)} km, " +
+        "Duration=${TimeUnit.SECONDS.toMinutes(routes.single().duration.toLong())} min,\n\n" +
+        waypoints.map { "${it.name} - ${it.asPosition().latLng()}]" }.joinToString("\n\n")
 
 fun MapboxMap.newLineAndCamera(context: Context, polylineOptions: PolylineOptions) {
   removeAnnotations()
