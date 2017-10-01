@@ -1,6 +1,7 @@
 package sk.vander.electride
 
 import android.content.Context
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.mapbox.mapboxsdk.Mapbox
 import com.patloew.rxlocation.RxLocation
 import dagger.Provides
@@ -18,6 +19,7 @@ abstract class App : BaseApp() {
   override fun onCreate() {
     super.onCreate()
     Mapbox.getInstance(this, BuildConfig.MAPBOX_TOKEN)
+    AndroidThreeTen.init(this)
   }
 
   @dagger.Module(includes = arrayOf(BaseAppModule::class))

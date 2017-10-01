@@ -10,7 +10,7 @@ import android.location.Location
  * @author marian on 21.9.2017.
  */
 @Entity(
-    tableName = "route_points",
+    tableName = "track_points",
     indices = arrayOf(Index("routeId")),
     foreignKeys = arrayOf(
         ForeignKey(
@@ -20,7 +20,7 @@ import android.location.Location
             onDelete = ForeignKey.CASCADE,
             deferred = true
         )))
-data class RoutePoint(
+data class TrackPoint(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val routeId: Long,
     val time: Long,

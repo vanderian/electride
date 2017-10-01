@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import sk.vander.electride.service.LocationService
 import sk.vander.electride.ui.routes.RoutesScreen
+import sk.vander.electride.ui.routes.detail.RouteDetailScreen
 import sk.vander.electride.ui.routes.directions.DirectionsScreen
 import sk.vander.lib.annotations.ActivityScope
 import sk.vander.lib.annotations.ScreenScope
@@ -20,8 +21,8 @@ object InjectorFactoriesModules {
     @ScreenScope @ContributesAndroidInjector()
     abstract fun contributeRoutesScreen(): RoutesScreen
 
-//    @ScreenScope @ContributesAndroidInjector()
-//    abstract fun contributeRouteDetailScreen(): RouteDetailScreen
+    @ScreenScope @ContributesAndroidInjector()
+    abstract fun contributeRouteDetailScreen(): RouteDetailScreen
 
     @ScreenScope @ContributesAndroidInjector()
     abstract fun contributeDirectionsScreen(): DirectionsScreen

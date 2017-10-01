@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField("String", "MAPBOX_TOKEN", "\"${rootProject.ext.props.mapbox}\"")
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -61,6 +62,7 @@ dependencies {
     compileOnly deps.javax_annotations
     implementation deps.rx_location
     implementation deps.rx_permissions
+    implementation deps.three_ten
 
     implementation deps.retrofit
     implementation deps.retrofit_rxjava

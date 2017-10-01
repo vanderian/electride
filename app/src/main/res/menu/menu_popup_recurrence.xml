@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_none"
+        android:title="One time"/>
+    <item
+        android:id="@+id/action_daily"
+        android:title="Daily"/>
+    <item
+        android:id="@+id/action_weekly"
+        android:title="Weekly"/>
+    <item
+        android:id="@+id/action_wekdays"
+        android:title="Weekdays (Mon-Fri)"/>
+    <item
+        android:id="@+id/action_monthly"
+        android:title="Monthly"/>
+    <item
+        android:id="@+id/action_yearly"
+        android:title="Yearly"/>
+</menu>

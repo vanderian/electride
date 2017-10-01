@@ -1,5 +1,6 @@
 package sk.vander.electride.ui.routes.adapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import com.jakewharton.rxbinding2.view.clicks
@@ -13,10 +14,11 @@ import sk.vander.lib.ui.widget.adapter.ViewHolder
 class RouteViewHolder(root: View) : ViewHolder<RouteItem, Route>(root) {
   val text: TextView by bindView<TextView>(android.R.id.text1)
 
+  @SuppressLint("SetTextI18n")
   override fun bind(item: RouteItem) {
-    text.text = item.route.toString()
+    text.text = "${item.route}\n"
     disposable.addAll(
-        itemView.clicks().subscribe { itemEvent.onNext(item.route) }
+        itemView.clicks().subscribe { itemEvent.onNext(item.route.route()) }
     )
   }
 }

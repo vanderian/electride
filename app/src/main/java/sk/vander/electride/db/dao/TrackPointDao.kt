@@ -4,17 +4,17 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import io.reactivex.Flowable
-import sk.vander.electride.db.entity.RoutePoint
+import sk.vander.electride.db.entity.TrackPoint
 
 /**
  * @author marian on 21.9.2017.
  */
 @Dao
-interface RoutePointDao {
+interface TrackPointDao {
 
   @Insert
-  fun insert(routePoint: RoutePoint)
+  fun insert(trackPoint: TrackPoint)
 
-  @Query("SELECT * FROM route_points WHERE routeId = :routeId")
-  fun queryRoute(routeId: Long): Flowable<List<RoutePoint>>
+  @Query("SELECT * FROM track_points WHERE routeId = :routeId")
+  fun queryRoute(routeId: Long): Flowable<List<TrackPoint>>
 }

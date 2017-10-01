@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import sk.vander.electride.ui.routes.RoutesModel
+import sk.vander.electride.ui.routes.detail.RouteDetailModel
 import sk.vander.electride.ui.routes.directions.DirectionsModel
 import sk.vander.lib.annotations.ViewModelKey
 
@@ -17,8 +18,8 @@ abstract class ModelsModule {
   @Binds @IntoMap @ViewModelKey(RoutesModel::class)
   abstract fun provideRoutesModel(model: RoutesModel): ViewModel
 
-//  @Binds @IntoMap @ViewModelKey(RouteDetailViewModel::class)
-//  abstract fun provideRouteDetailModel(model: RouteDetailViewModel): ViewModel
+  @Binds @IntoMap @ViewModelKey(RouteDetailModel::class)
+  abstract fun provideRouteDetailModel(model: RouteDetailModel): ViewModel
 
   @Binds @IntoMap @ViewModelKey(DirectionsModel::class)
   abstract fun provideDirectionsModel(model: DirectionsModel): ViewModel

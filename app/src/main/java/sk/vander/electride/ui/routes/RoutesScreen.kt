@@ -39,7 +39,7 @@ class RoutesScreen : Screen<RoutesModel, ListState<RouteItem>, RouteIntents>(Rou
     super.onViewCreated(view, savedInstanceState)
     routes.layoutManager = LinearLayoutManager(context)
     routes.adapter = adapter
-    toolbar.inflateMenu(R.menu.menu_fab_routes)
+    toolbar.inflateMenu(R.menu.menu_routes)
     toolbar.setTitle(R.string.label_routes)
   }
 

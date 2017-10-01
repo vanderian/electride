@@ -9,16 +9,12 @@ import android.support.v4.app.NotificationCompat
 import com.google.android.gms.location.LocationRequest
 import com.patloew.rxlocation.RxLocation
 import dagger.android.AndroidInjection
-import io.reactivex.BackpressureStrategy
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import sk.vander.electride.MainActivity
 import sk.vander.electride.R
 import sk.vander.electride.db.dao.RouteDao
-import sk.vander.electride.db.dao.RoutePointDao
+import sk.vander.electride.db.dao.TrackPointDao
 import sk.vander.electride.db.entity.Route
-import sk.vander.electride.db.entity.RoutePoint
-import sk.vander.lib.debug.log
 import javax.inject.Inject
 
 /**
@@ -31,7 +27,7 @@ class LocationService : Service() {
       .setInterval(5000L)
 
   @Inject lateinit var routeDao: RouteDao
-  @Inject lateinit var routePointDao: RoutePointDao
+  @Inject lateinit var trackPointDao: TrackPointDao
   @Inject lateinit var rxLocation: RxLocation
 
   private fun setForeground(route: Route) {
@@ -57,6 +53,7 @@ class LocationService : Service() {
 
   @SuppressLint("MissingPermission")
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+/*
     if (disposable.size() == 0) {
       disposable.addAll(
           routeDao.queryCompleted()
@@ -74,13 +71,15 @@ class LocationService : Service() {
                           .observeOn(Schedulers.io())
                     }
                     .log("has location:")
-                    .doOnNext { routePointDao.insert(RoutePoint(it, id)) }
+                    .doOnNext { trackPointDao.insert(TrackPoint(it, id)) }
               }
               .subscribeOn(Schedulers.io())
               .doOnCancel { stopSelf() }
               .subscribe()
       )
     }
+*/
+    stopSelf()
     return START_NOT_STICKY
   }
 

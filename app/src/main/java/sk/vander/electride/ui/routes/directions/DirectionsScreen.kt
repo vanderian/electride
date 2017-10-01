@@ -1,14 +1,27 @@
 package sk.vander.electride.ui.routes.directions
 
+import android.app.DatePickerDialog
+import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.TextInputEditText
+import android.support.design.widget.TextInputLayout
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.TextView
 import butterknife.BindView
+import com.jakewharton.rxbinding2.support.v7.widget.itemClicks
+import com.jakewharton.rxbinding2.support.v7.widget.navigationClicks
 import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding2.view.focusChanges
 import com.mapbox.mapboxsdk.maps.MapboxMap
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import sk.vander.electride.R
 import sk.vander.electride.ui.*
 import sk.vander.electride.ui.common.MapBoxScreen
@@ -17,32 +30,103 @@ import sk.vander.electride.ui.common.MapBoxScreen
  * @author marian on 23.9.2017.
  */
 class DirectionsScreen : MapBoxScreen<DirectionsModel, DirectionState, DirectionIntents>(DirectionsModel::class) {
+  private val dialog: Maybe<LocalDate> by lazy {
+    Maybe.create<LocalDate> { emitter ->
+      val date = LocalDate.now()
+      val d = DatePickerDialog(context,
+          DatePickerDialog.OnDateSetListener { _, y, m, d -> emitter.onSuccess(LocalDate.of(y, m, d)) },
+          date.year, date.monthValue, date.dayOfMonth)
+      d.setOnDismissListener { emitter.onComplete() }
+      emitter.setCancellable { d.dismiss() }
+      d.show()
+    }
+  }
+
+  private val popup: Maybe<Recurrence> by lazy {
+    Maybe.create<Recurrence> { emitter ->
+      val popup = PopupMenu(context, editRecurrence).apply {
+        menuInflater.inflate(R.menu.menu_popup_recurrence, menu)
+        setOnMenuItemClickListener { emitter.onSuccess(Recurrence.from(it.itemId)); true }
+        setOnDismissListener { emitter.onComplete() }
+      }
+      emitter.setCancellable { popup.dismiss() }
+      popup.show()
+    }
+  }
+
   @BindView(R.id.text_sheet_title) lateinit var title: TextView
   @BindView(R.id.text_sheet_info) lateinit var info: TextView
   @BindView(R.id.fab_direction) lateinit var fab: FloatingActionButton
   @BindView(R.id.view_progress) lateinit var progress: View
   @BindView(R.id.bottom_sheet) lateinit var sheet: View
+  @BindView(R.id.input_edit_date) lateinit var editDate: TextInputEditText
+  @BindView(R.id.input_edit_recurrence) lateinit var editRecurrence: TextInputEditText
+  @BindView(R.id.input_date) lateinit var inputDate: TextInputLayout
+  @BindView(R.id.input_recurrence) lateinit var inputRecurrence: TextInputLayout
+  @BindView(R.id.toolbar) lateinit var toolbar: Toolbar
 
   override fun layout(): Int = R.layout.screen_directions
 
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    toolbar.inflateMenu(R.menu.menu_directions)
+  }
+
   override fun intents(): DirectionIntents = object : DirectionIntents {
+
+    override fun date(): Observable<LocalDate> =
+        editDate.focusChanges().filter { it }.doOnNext { editDate.clearFocus() }
+            .flatMapMaybe { dialog }
+            .startWith(LocalDate.now())
+            .doOnNext { editDate.setText(it.format(DateTimeFormatter.ISO_LOCAL_DATE)) }
+
+    override fun recurrence(): Observable<Recurrence> =
+        editRecurrence.focusChanges().filter { it }.doOnNext { editRecurrence.clearFocus() }
+            .flatMapMaybe { popup }
+            .startWith(Recurrence.NONE)
+            .doOnNext { editRecurrence.setText(it.string) }
+
     override fun compute(): Observable<Unit> = fab.clicks()
     override fun mapReady(): Single<MapboxMap> = mapBox
+    override fun toolbarMenu(): Observable<MenuItem> = toolbar.itemClicks()
+    override fun toolbarNav(): Observable<Unit> = toolbar.navigationClicks()
   }
 
   override fun render(state: DirectionState) {
-    progress.visibility = state.loading.visibility()
+    progress.visibility = state.mapLoading.visibility()
     fab.visibility = state.fab.visibility()
+    inputDate.visibility = (state.response != null).visibility()
+    inputRecurrence.visibility = (state.response != null).visibility()
+    toolbar.menu.findItem(R.id.action_save).toggle(state.saveVisible)
+    toolbar.toggle(state.toolbarMode)
 //    if (state.fab) fab.show() else fab.hide()
-    if (!state.loading) {
+    if (!state.mapLoading) {
       val map = mapBox.blockingGet()
-      state.camera?.let { map.animateCamera(it) }
+      if (state.points.isEmpty() && state.polyline == null) {
+        map.removeAnnotations()
+        sheet.toggle(false)
+      }
+      state.camera?.let { map.animateCamera(it, UiConst.CAMERA_UPDATE) }
       state.points.map { it.point(context, R.drawable.shape_dot, R.color.amber_600) }
-          .let { if (it.isNotEmpty()) map.addMarker(it.last()) }
-      title.text = if (state.points.isEmpty()) getString(R.string.no_points) else getString(R.string.has_points, state.points.size)
+          .let { if (it.isNotEmpty() && it.size != map.markers.size) map.addMarker(it.last()) }
+      title.text = title(state)
       info.text = state.response?.text() ?: map.markers.map { it.position }.joinToString("\n\n")
-      state.polyline?.let { map.newLineAndCamera(context, it) }
-      state.response?.let { BottomSheetBehavior.from(sheet).state = BottomSheetBehavior.STATE_EXPANDED }
+      state.polyline?.let { map.newLine(context, it) }
+      state.response?.let { sheet.postDelayed({ sheet.toggle(true) }, 1500) }
     }
   }
+
+  fun View.toggle(expand: Boolean) {
+    BottomSheetBehavior.from(this).state =
+        if (expand) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
+  }
+
+  fun title(state: DirectionState): String =
+      if (state.response != null) {
+        getString(R.string.has_way_points, state.response.waypoints.size)
+      } else if (state.points.isNotEmpty()) {
+        getString(R.string.has_points, state.points.size)
+      } else {
+        getString(R.string.no_points)
+      }
 }

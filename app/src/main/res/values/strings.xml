@@ -11,6 +11,16 @@
 
     <string name="no_items">No Items available.</string>
     <string name="route_details">Route details</string>
-    <string name="no_points">No way points, select at least two</string>
-    <string name="has_points">A route with %1$d way points:</string>
+    <string name="no_points">No way points, select at least two, max 25</string>
+    <string name="has_points">A route to compute with %1$d way points:</string>
+    <string name="has_way_points">A computed route with %1$d way points:</string>
+    <string name="recurrence_none">One time</string>
+    <string name="recurrence_daily">Daily</string>
+    <string name="recurrence_weekdays">Weekdays</string>
+    <string name="recurrence_weekly">Weekly</string>
+    <string name="recurrence_monthly">Monthly</string>
+    <string name="recurrence_yearly">Yearly</string>
+
+    <string name="hint_recurrence">Recurrence</string>
+    <string name="hint_datetime">Date and time</string>
 </resources>

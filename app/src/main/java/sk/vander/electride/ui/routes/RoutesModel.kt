@@ -7,6 +7,7 @@ import io.reactivex.disposables.Disposable
 import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.ui.RouteIntents
 import sk.vander.electride.ui.routes.adapter.RouteItem
+import sk.vander.electride.ui.routes.detail.RouteDetailScreen
 import sk.vander.electride.ui.routes.directions.DirectionsScreen
 import sk.vander.lib.ui.screen.ListState
 import sk.vander.lib.ui.screen.NextScreen
@@ -25,12 +26,12 @@ class RoutesModel @Inject constructor(
       Observable.merge(
           Observable.merge(
               intents.newRoute().map { NextScreen(DirectionsScreen()) },
-              intents.routeSelected().map { NextScreen(RoutesScreen()) }
+              intents.routeSelected().map { NextScreen(RouteDetailScreen.newInstance(it.id)) }
           ).doOnNext { navigation.onNext(it) },
           database().toObservable())
           .subscribe()
 
-  fun database(): Flowable<ListState<RouteItem>> = routeDao.queryAll()
+  fun database(): Flowable<ListState<RouteItem>> = routeDao.queryAllWithStats()
       .map { it.map { RouteItem(it) } }
       .map { ListState(it, false, it.isEmpty()) }
       .observeOn(AndroidSchedulers.mainThread())
