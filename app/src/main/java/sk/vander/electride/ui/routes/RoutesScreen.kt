@@ -5,8 +5,10 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import butterknife.BindView
+import com.jakewharton.rxbinding2.support.v7.widget.itemClicks
 import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.Observable
 import sk.vander.electride.R
@@ -40,10 +42,10 @@ class RoutesScreen : Screen<RoutesModel, ListState<RouteItem>, RouteIntents>(Rou
     routes.layoutManager = LinearLayoutManager(context)
     routes.adapter = adapter
     toolbar.inflateMenu(R.menu.menu_routes)
-    toolbar.setTitle(R.string.label_routes)
   }
 
   override fun intents(): RouteIntents = object : RouteIntents {
+    override fun menu(): Observable<MenuItem> = toolbar.itemClicks()
     override fun newRoute(): Observable<Unit> = fab.clicks()
     override fun routeSelected(): Observable<Route> = adapter.itemEventSource.toObservable()
   }

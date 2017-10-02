@@ -41,6 +41,7 @@ class DirectionsModel @Inject constructor(
         intents.mapReady()
             .doOnSuccess { it.isMyLocationEnabled = true }
             .doOnSuccess { state.next { copy(mapLoading = false, camera = it.myLocation?.camera(10.0)) } }
+            .doAfterSuccess { state.next { copy(camera = null) } }
             .flatMapObservable { map ->
               map.mapClicks()
                   .filter { state.value.loading.not().or(state.value.response == null) }
@@ -53,8 +54,9 @@ class DirectionsModel @Inject constructor(
                   .log("has direction")
                   .doOnNext {
                     state.next {
-                      copy(response = it, polyline = it.routes.single().geometry.polyline(),
-                          camera = polyline?.camera(UiConst.CAMERA_PADDING), toolbarMode = NavMode.CLEAR, saveVisible = true)
+                      val poly = it.routes.single().geometry.polyline()
+                      copy(response = it, polyline = poly, camera = poly.camera(UiConst.CAMERA_PADDING),
+                          toolbarMode = NavMode.CLEAR, saveVisible = true)
                     }
                   }
             }

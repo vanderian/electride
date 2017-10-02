@@ -23,6 +23,7 @@ class RouteDetailScreen : MapBoxScreen<RouteDetailModel, DetailState, DetailInte
   @BindView(R.id.navigation) lateinit var viewNavigation: BottomNavigationView
   @BindView(R.id.text_route) lateinit var textRoute: TextView
   @BindView(R.id.text_route_stats) lateinit var textRouteStats: TextView
+  @BindView(R.id.text_recharges) lateinit var textRecharges: TextView
 
   override fun layout(): Int = R.layout.screen_route_detail
 
@@ -32,27 +33,38 @@ class RouteDetailScreen : MapBoxScreen<RouteDetailModel, DetailState, DetailInte
   }
 
   override fun intents(): DetailIntents = object : DetailIntents {
+    override fun mapReady(): Single<Unit> = mapBox.map { Unit }
     override fun navigation(): Observable<MenuItem> = viewNavigation.itemSelections()
     override fun args(): Single<Long> = Single.just(arguments.getLong(ARG_ROUTE_ID))
   }
 
   override fun render(state: DetailState) {
     viewAnimator.displayedChildId = state.view
-    textRoute.text = state.route
-    textRouteStats.text = state.stats
-    state.polyline?.let {
+    textRoute.text = state.route.toString()
+    textRouteStats.text = state.stats?.text()
+    textRecharges.text = when {
+      state.recharges == 0 -> getString(R.string.no_recharges)
+      state.recharges > 0 -> getString(R.string.some_recharges, state.recharges)
+      else -> ""
+    }
+    if (state.mapLoading.not() && viewAnimator.displayedChildId == map.id) {
       mapBox.blockingGet().apply {
-        newLine(context, it)
-        animateCamera(it.camera(UiConst.CAMERA_PADDING), UiConst.CAMERA_UPDATE)
+        if (polylines.isEmpty() && state.polyline != null) {
+          newLine(context, state.polyline)
+          animateCamera(state.polyline.camera(UiConst.CAMERA_PADDING), UiConst.CAMERA_UPDATE)
+        }
+        if (markers.size == 2 && state.markers.isNotEmpty()) {
+          state.markers.forEach { addMarker(it.icon(R.drawable.ic_ev_station_black_24dp.icon(context, android.R.color.white))) }
+        }
       }
     }
   }
 
-    companion object {
-      const val ARG_ROUTE_ID = "arg_route_id"
+  companion object {
+    const val ARG_ROUTE_ID = "arg_route_id"
 
-      @JvmStatic fun newInstance(routeId: Long): Screen<*, *, *> = RouteDetailScreen().apply {
-        arguments = Bundle().apply { putLong(ARG_ROUTE_ID, routeId) }
-      }
+    @JvmStatic fun newInstance(routeId: Long): Screen<*, *, *> = RouteDetailScreen().apply {
+      arguments = Bundle().apply { putLong(ARG_ROUTE_ID, routeId) }
     }
   }
+}

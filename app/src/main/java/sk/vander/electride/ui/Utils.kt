@@ -42,6 +42,16 @@ object UiConst {
   const val CAMERA_UPDATE = 3000
 }
 
+fun cameraCallback(finish: () -> Unit): MapboxMap.CancelableCallback = object : MapboxMap.CancelableCallback {
+  override fun onFinish() {
+    finish()
+  }
+
+  override fun onCancel() {
+//    cancel()
+  }
+}
+
 fun MenuItem.toggle(visible: Boolean) {
   if (!isVisible && visible) icon.animate()
   isVisible = visible
@@ -89,8 +99,8 @@ fun String.polyline(): PolylineOptions =
 
 fun MapboxMap.newLine(context: Context, polylineOptions: PolylineOptions) {
   removeAnnotations()
-  polylineOptions.points.dropLast(1).drop(1)
-      .forEach { addMarker(it.point(context, R.drawable.shape_dot, R.color.colorPrimary)) }
+//  polylineOptions.points.dropLast(1).drop(1)
+//      .forEach { addMarker(it.point(context, R.drawable.shape_dot, R.color.colorPrimary)) }
   addMarker(polylineOptions.points.first().point(context, R.drawable.ic_arrow_downward_black_24dp, android.R.color.white))
   addMarker(polylineOptions.points.last().point(context, R.drawable.ic_clear_black_24dp, android.R.color.white))
   addPolyline(polylineOptions)

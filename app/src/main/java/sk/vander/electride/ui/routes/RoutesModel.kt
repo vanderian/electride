@@ -4,15 +4,14 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import sk.vander.electride.R
+import sk.vander.electride.SettingsActivity
 import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.ui.RouteIntents
 import sk.vander.electride.ui.routes.adapter.RouteItem
 import sk.vander.electride.ui.routes.detail.RouteDetailScreen
 import sk.vander.electride.ui.routes.directions.DirectionsScreen
-import sk.vander.lib.ui.screen.ListState
-import sk.vander.lib.ui.screen.NextScreen
-import sk.vander.lib.ui.screen.Result
-import sk.vander.lib.ui.screen.ScreenModel
+import sk.vander.lib.ui.screen.*
 import javax.inject.Inject
 
 /**
@@ -26,9 +25,12 @@ class RoutesModel @Inject constructor(
       Observable.merge(
           Observable.merge(
               intents.newRoute().map { NextScreen(DirectionsScreen()) },
-              intents.routeSelected().map { NextScreen(RouteDetailScreen.newInstance(it.id)) }
+              intents.routeSelected().map { NextScreen(RouteDetailScreen.newInstance(it.id)) },
+              intents.menu().filter { it.itemId == R.id.action_settings }
+                  .map { NextStage(SettingsActivity::class) }
           ).doOnNext { navigation.onNext(it) },
-          database().toObservable())
+          database().toObservable()
+      )
           .subscribe()
 
   fun database(): Flowable<ListState<RouteItem>> = routeDao.queryAllWithStats()

@@ -36,7 +36,7 @@
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:elevation="4dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                tools:title="asdasd"
+                app:title="@string/label_routes"
                 />
         </android.support.design.widget.AppBarLayout>
 

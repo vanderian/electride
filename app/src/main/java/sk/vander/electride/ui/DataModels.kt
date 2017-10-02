@@ -4,6 +4,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
 import android.support.annotation.StringRes
 import android.view.MenuItem
+import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.annotations.PolylineOptions
 import com.mapbox.mapboxsdk.camera.CameraUpdate
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -14,6 +15,7 @@ import io.reactivex.Single
 import org.threeten.bp.LocalDate
 import sk.vander.electride.R
 import sk.vander.electride.db.entity.Route
+import sk.vander.electride.db.entity.RouteStats
 import sk.vander.lib.ui.screen.Screen
 
 /**
@@ -24,6 +26,7 @@ import sk.vander.lib.ui.screen.Screen
 interface RouteIntents : Screen.Intents {
   fun newRoute(): Observable<Unit>
   fun routeSelected(): Observable<Route>
+  fun menu(): Observable<MenuItem>
 }
 
 //directions
@@ -78,13 +81,17 @@ enum class Recurrence(@StringRes val string: Int) {
 
 //detail
 data class DetailState(
+    val mapLoading: Boolean = true,
     val view: Int = R.id.view_info,
     val polyline: PolylineOptions? = null,
-    val route: String = "",
-    val stats: String = ""
+    val route: Route? = null,
+    val stats: RouteStats? = null,
+    val recharges: Int = -1,
+    val markers: List<MarkerOptions> = emptyList()
 ) : Screen.State
 
 interface DetailIntents : Screen.Intents {
   fun args(): Single<Long>
   fun navigation(): Observable<MenuItem>
+  fun mapReady(): Single<Unit>
 }

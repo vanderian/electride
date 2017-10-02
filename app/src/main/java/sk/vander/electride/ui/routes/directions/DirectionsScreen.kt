@@ -106,13 +106,16 @@ class DirectionsScreen : MapBoxScreen<DirectionsModel, DirectionState, Direction
         map.removeAnnotations()
         sheet.toggle(false)
       }
-      state.camera?.let { map.animateCamera(it, UiConst.CAMERA_UPDATE) }
+      state.camera?.let {
+        map.animateCamera(it, UiConst.CAMERA_UPDATE, cameraCallback {
+          state.response?.let { sheet.toggle(true) }
+        })
+      }
       state.points.map { it.point(context, R.drawable.shape_dot, R.color.amber_600) }
           .let { if (it.isNotEmpty() && it.size != map.markers.size) map.addMarker(it.last()) }
       title.text = title(state)
       info.text = state.response?.text() ?: map.markers.map { it.position }.joinToString("\n\n")
       state.polyline?.let { map.newLine(context, it) }
-      state.response?.let { sheet.postDelayed({ sheet.toggle(true) }, 1500) }
     }
   }
 

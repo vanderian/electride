@@ -13,7 +13,7 @@ import sk.vander.lib.annotations.ApplicationScope
  * @author marian on 21.9.2017.
  */
 @Module
-object DataModule {
+object DatabaseModule {
 
   @JvmStatic @Provides @ApplicationScope
   fun provideDatabase(context: Context): Database =

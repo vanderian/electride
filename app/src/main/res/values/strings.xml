@@ -8,12 +8,16 @@
     <string name="label_new_route">New Route</string>
 
     <string name="action_add_from_map">Add from map</string>
+    <string name="action_settings">Settings</string>
 
     <string name="no_items">No Items available.</string>
     <string name="route_details">Route details</string>
     <string name="no_points">No way points, select at least two, max 25</string>
     <string name="has_points">A route to compute with %1$d way points:</string>
     <string name="has_way_points">A computed route with %1$d way points:</string>
+    <string name="no_recharges">No recharges are necessary on this route.</string>
+    <string name="some_recharges">Number of required recharges: %1$d</string>
+
     <string name="recurrence_none">One time</string>
     <string name="recurrence_daily">Daily</string>
     <string name="recurrence_weekdays">Weekdays</string>
@@ -21,8 +25,13 @@
     <string name="recurrence_monthly">Monthly</string>
     <string name="recurrence_yearly">Yearly</string>
 
-    <string name="hint_recurrence">Recurrence</string>
-    <string name="hint_datetime">Date and time</string>
     <string name="navigation_info">Info</string>
     <string name="navigation_map">Map</string>
+
+    <string name="hint_recurrence">Recurrence</string>
+    <string name="hint_datetime">Date and time</string>
+
+    <string name="pref_title_range">Range</string>
+    <string name="pref_summary_range">An estimated range of your car in KM</string>
+
 </resources>

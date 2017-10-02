@@ -1,6 +1,7 @@
 package sk.vander.electride
 
 import android.content.Context
+import android.preference.PreferenceManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.mapbox.mapboxsdk.Mapbox
 import com.patloew.rxlocation.RxLocation
@@ -20,6 +21,7 @@ abstract class App : BaseApp() {
     super.onCreate()
     Mapbox.getInstance(this, BuildConfig.MAPBOX_TOKEN)
     AndroidThreeTen.init(this)
+    PreferenceManager.setDefaultValues(this, R.xml.preferences, true)
   }
 
   @dagger.Module(includes = arrayOf(BaseAppModule::class))

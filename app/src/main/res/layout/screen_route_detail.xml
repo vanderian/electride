@@ -17,32 +17,49 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/view_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
             >
 
-            <TextView
-                android:id="@+id/text_route"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
-                />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                >
 
-            <TextView
-                android:id="@+id/text_route_stats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintTop_toBottomOf="@+id/text_route"
-                tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
-                />
+                <TextView
+                    android:id="@+id/text_route"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
+                    />
 
-        </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/text_recharges"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    app:layout_constraintTop_toBottomOf="@+id/text_route"
+                    tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
+                    />
+
+                <TextView
+                    android:id="@+id/text_route_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    app:layout_constraintTop_toBottomOf="@+id/text_recharges"
+                    tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
 
         <com.mapbox.mapboxsdk.maps.MapView
             android:id="@id/view_mapbox"

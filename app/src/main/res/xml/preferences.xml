@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:inputType="number"
+        android:key="pref_range"
+        android:title="@string/pref_title_range"
+        android:summary="@string/pref_summary_range"
+        android:defaultValue="100" />
+
+    <EditTextPreference
+        android:inputType="number"
+        android:key="pref_chargers_offroute"
+        android:title="Off route distance"
+        android:summary="Distance of EV charging stations from displayed route in KM"
+        android:defaultValue="20" />
+</PreferenceScreen>

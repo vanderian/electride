@@ -63,6 +63,7 @@ dependencies {
     implementation deps.rx_location
     implementation deps.rx_permissions
     implementation deps.three_ten
+    implementation deps.rx_pref
 
     implementation deps.retrofit
     implementation deps.retrofit_rxjava
