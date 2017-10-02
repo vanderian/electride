@@ -5,7 +5,8 @@
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/avd_check"
-        android:iconTint="@android:color/white"
         android:title="Save"
+        android:visible="false"
+        app:iconTint="@android:color/white"
         app:showAsAction="always"/>
 </menu>

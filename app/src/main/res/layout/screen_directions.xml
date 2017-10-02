@@ -13,7 +13,7 @@
         >
 
         <com.mapbox.mapboxsdk.maps.MapView
-            android:id="@id/mapbox_view"
+            android:id="@id/view_mapbox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="?attr/actionBarSize"
@@ -24,8 +24,8 @@
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:background="#f222"
+            android:layout_height="320dp"
+            android:background="@color/bg_bottom_bar"
             android:clipToPadding="false"
             android:fillViewport="true"
             android:minHeight="?attr/actionBarSize"

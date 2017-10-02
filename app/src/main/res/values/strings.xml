@@ -23,4 +23,6 @@
 
     <string name="hint_recurrence">Recurrence</string>
     <string name="hint_datetime">Date and time</string>
+    <string name="navigation_info">Info</string>
+    <string name="navigation_map">Map</string>
 </resources>

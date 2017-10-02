@@ -2,15 +2,64 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@id/mapbox_view"
+    <sk.vander.lib.ui.widget.BetterViewAnimator
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/animator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:mapbox_styleUrl="@string/mapbox_style_dark"
-        />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/view_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            >
+
+            <TextView
+                android:id="@+id/text_route"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
+                />
+
+            <TextView
+                android:id="@+id/text_route_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintTop_toBottomOf="@+id/text_route"
+                tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:id="@id/view_mapbox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:mapbox_styleUrl="@string/mapbox_style_dark"
+            />
+    </sk.vander.lib.ui.widget.BetterViewAnimator>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/bg_bottom_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animator"
+        app:menu="@menu/menu_navigation_route"
+        />
 </android.support.constraint.ConstraintLayout>

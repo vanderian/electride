@@ -1,10 +1,9 @@
 package sk.vander.electride.ui.routes.detail
 
-import com.mapbox.mapboxsdk.annotations.PolylineOptions
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.zipWith
 import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.db.dao.RouteStatsDao
 import sk.vander.electride.ui.DetailIntents
@@ -23,12 +22,19 @@ class RouteDetailModel @Inject constructor(
 ) : ScreenModel<DetailState, DetailIntents>(DetailState()) {
 
   override fun collectIntents(intents: DetailIntents, result: Observable<Result>): Disposable =
-    intents.args().flatMapPublisher { mapPoints(it) }
-        .doOnNext { state.next { copy(polyline = it) } }
-        .subscribe()
+      Observable.merge(
+          intents.args().flatMapObservable {
+            routeDao.queryOne(it).zipWith(routeStatsDao.queryRoute(it), { r, rs -> r.to(rs) })
+                .map {
+                  state.value.copy(polyline = it.second.single().geometry.polyline(),
+                      route = it.first.toString(), stats = it.second.single().text())
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { state.onNext(it) }
+                .toObservable()
+          },
+          intents.navigation().doOnNext { state.next { copy(view = it.itemId) } }
+      )
+          .subscribe()
 
-  internal fun mapPoints(routeId: Long): Flowable<PolylineOptions> =
-      routeStatsDao.queryRoute(routeId)
-          .map { it.single().geometry.polyline() }
-          .observeOn(AndroidSchedulers.mainThread())
 }

@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
 abstract class MapBoxScreen<T : ScreenModel<U, V>, U : Screen.State, V : Screen.Intents>
 (clazz: KClass<T>) : Screen<T, U, V>(clazz) {
 
-  @BindView(R.id.mapbox_view) lateinit var map: MapView
+  @BindView(R.id.view_mapbox) lateinit var map: MapView
   val mapBox: Single<MapboxMap> =
       Single.create<MapboxMap> { emitter -> map.getMapAsync { emitter.onSuccess(it) } }
           .cache()

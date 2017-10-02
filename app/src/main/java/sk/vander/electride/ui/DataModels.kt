@@ -78,9 +78,13 @@ enum class Recurrence(@StringRes val string: Int) {
 
 //detail
 data class DetailState(
-    val polyline: PolylineOptions? = null
+    val view: Int = R.id.view_info,
+    val polyline: PolylineOptions? = null,
+    val route: String = "",
+    val stats: String = ""
 ) : Screen.State
 
 interface DetailIntents : Screen.Intents {
   fun args(): Single<Long>
+  fun navigation(): Observable<MenuItem>
 }

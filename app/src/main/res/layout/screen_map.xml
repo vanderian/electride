@@ -7,7 +7,7 @@
     >
 
     <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@id/mapbox_view"
+        android:id="@id/view_mapbox"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:mapbox_styleUrl="@string/mapbox_style_dark"
