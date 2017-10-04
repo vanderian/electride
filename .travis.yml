@@ -10,4 +10,4 @@ android:
 script:
    - ./gradlew assembleRelease --stacktrace --no-daemon
 after_script:
-   - ./gradlew releaseNotes gcrashlyticsUploadDistributionRelease
+   - ./gradlew releaseNotes crashlyticsUploadDistributionRelease
