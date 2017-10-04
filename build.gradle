@@ -20,7 +20,6 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.1'
         classpath "gradle.plugin.com.gladed.gradle.androidgitversion:gradle-android-git-version:0.4.0"
-        classpath 'org.pegdown:pegdown:1.4.1'
     }
 }
 
@@ -46,60 +45,6 @@ if (file("tokens.properties").exists()) {
     }
 }
 
-import org.pegdown.PegDownProcessor
-import groovy.text.SimpleTemplateEngine
-
-def readTags() {
-    def tags = []
-    def proc = "git tag -l".execute()
-    proc.in.eachLine { line -> tags += line}
-    tags.sort {}
-    Collections.reverse( tags )
-    tags
-}
-
-def readTagMessage(String tag) {
-    def message = []
-    def proc = "git cat-file tag $tag".execute()
-    def startCollection = false
-    proc.in.eachLine { line ->
-        if (line.isEmpty()) {
-            startCollection = true
-        }
-        if (startCollection) {
-            message += line
-        }
-    }
-    proc.err.eachLine { line -> println line }
-    message
-}
-
-task releaseNotes() << {
-    def releaseNotes = new File('release_notes.md')
-    releaseNotes.delete()
-    def versions = ""
-
-    def tags = readTags()
-    tags.each {tag ->
-        versions += "- [$tag](#$tag)\n"
-    }
-
-    tags.each {tag ->
-        releaseNotes << "# ${tag}<a name='$tag'></a>\n"
-        def message = readTagMessage(tag)
-        message.each{releaseNotes << "$it\n"}
-        releaseNotes << "\n"
-    }
-
-
-    def writer = new StringWriter()
-    def pdp = new PegDownProcessor()
-    def engine = new SimpleTemplateEngine()
-    def template = engine.createTemplate(new File("release_notes.tpl"))
-    def daten = [releaseNotes:pdp.markdownToHtml(new File("release_notes.md").text), application: project.name, versions:pdp.markdownToHtml(versions)]
-
-    def ergebnis = template.make(daten)
-    new File('release_notes.html').withWriter { w ->
-        w.write(ergebnis)
-    }
+task releaseNotes() {
+    "git log `git describe --tags --abbrev=0`..HEAD --no-merges --pretty=format:%s >> release_notes.txt".execute().text.trim()
 }

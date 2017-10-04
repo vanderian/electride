@@ -163,5 +163,4 @@ fabric.properties
 # End of https://www.gitignore.io/api/android,androidstudio
 /tokens.properties
 
-/release_notes.md
-/release_notes.html
+/release_notes.txt
