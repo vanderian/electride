@@ -133,7 +133,7 @@ ext.deps = [
         relinker                    : 'com.getkeepsafe.relinker:relinker:1.2.2',
         dns                         : 'dnsjava:dnsjava:2.1.8',
         apache_commons              : 'org.apache.commons:commons-lang3:3.6',
-        crashlytics                 : 'com.crashlytics.sdk.android:crashlytics:2.6.8',
+        crashlytics                 : 'com.crashlytics.sdk.android:crashlytics:2.6.8@aar',
         crashlytics_ndk             : 'com.crashlytics.sdk.android:crashlytics-ndk:1.1.6',
 
         leakcanary                  : 'com.squareup.leakcanary:leakcanary-android:1.5.1',

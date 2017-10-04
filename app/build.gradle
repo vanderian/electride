@@ -5,6 +5,7 @@ apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'com.jakewharton.hugo'
 // discover dependency current versions ./gradlew dependencyUpdates -Drevision=release
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'io.fabric'
 
 apply from: rootProject.file("gradle/compile.gradle")
 apply from: rootProject.file("gradle/android.gradle")
@@ -70,6 +71,8 @@ dependencies {
     implementation deps.retrofit_gson
     implementation deps.okhttp
     implementation deps.okhttp_logging
+
+    implementation(deps.crashlytics) { transitive = true }
 
     debugImplementation deps.leakcanary
     debugImplementation deps.blockcanary
