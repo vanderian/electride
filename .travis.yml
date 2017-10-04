@@ -38,5 +38,5 @@ before_deploy:
 - jarsigner -verify app-release-unsigned.apk
 - "${ANDROID_HOME}/build-tools/26.0.2/zipalign -v 4 app-release-unsigned.apk TravisExample.apk"
 
-after_success:
+after_script:
 - "./gradlew releaseNotes crashlyticsUploadDistributionRelease"
