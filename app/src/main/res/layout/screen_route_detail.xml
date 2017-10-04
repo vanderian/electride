@@ -38,12 +38,24 @@
                     tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
                     />
 
+                <ImageView
+                    android:id="@+id/icon_recharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="?attr/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_recharges"
+                    app:layout_constraintTop_toTopOf="@+id/text_recharges"
+                    app:srcCompat="@drawable/ic_ev_station_black_24dp"
+                    />
+
                 <TextView
                     android:id="@+id/text_recharges"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    app:layout_constraintLeft_toRightOf="@+id/icon_recharge"
                     app:layout_constraintTop_toBottomOf="@+id/text_route"
                     tools:text="asdad akjdajkdbakj aj asj \andjk akjd\nkajdk asldal"
                     />

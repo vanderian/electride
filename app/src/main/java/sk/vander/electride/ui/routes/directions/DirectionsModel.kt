@@ -1,5 +1,6 @@
 package sk.vander.electride.ui.routes.directions
 
+import com.f2prateek.rx.preferences2.Preference
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.services.api.directions.v5.DirectionsCriteria
@@ -14,12 +15,12 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import sk.vander.electride.BuildConfig
+import sk.vander.electride.data.RangePref
 import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.db.dao.RouteStatsDao
 import sk.vander.electride.db.entity.Route
 import sk.vander.electride.db.entity.RouteStats
 import sk.vander.electride.ui.*
-import sk.vander.lib.debug.log
 import sk.vander.lib.ui.screen.GoBack
 import sk.vander.lib.ui.screen.Result
 import sk.vander.lib.ui.screen.ScreenModel
@@ -30,7 +31,8 @@ import javax.inject.Inject
  */
 class DirectionsModel @Inject constructor(
     private val routeDao: RouteDao,
-    private val routeStatsDao: RouteStatsDao
+    private val routeStatsDao: RouteStatsDao,
+    @RangePref private val range: Preference<String>
 ) : ScreenModel<DirectionState, DirectionIntents>(DirectionState()) {
 
   override fun collectIntents(intents: DirectionIntents, result: Observable<Result>): Disposable {
@@ -45,18 +47,21 @@ class DirectionsModel @Inject constructor(
             .flatMapObservable { map ->
               map.mapClicks()
                   .filter { state.value.loading.not().or(state.value.response == null) }
-                  .doOnNext { state.next { copy(points = points.plus(it), fab = points.isNotEmpty()) } }
+                  .doOnNext {
+                    state.next {
+                      copy(points = points.plus(it), fab = points.isNotEmpty(), info = points.plus(it).joinToString("\n\n"))
+                    }
+                  }
                   .doAfterNext { if (map.markers.size >= API_LIMIT) boundary.onNext(Unit) }
                   .buffer(boundary)
                   .doOnNext { state.next { copy(fab = false, loading = true) } }
                   .map { it.map { it.position() } }
                   .flatMapSingle { directions(it) }
-                  .log("has direction")
                   .doOnNext {
                     state.next {
                       val poly = it.routes.single().geometry.polyline()
                       copy(response = it, polyline = poly, camera = poly.camera(UiConst.CAMERA_PADDING),
-                          toolbarMode = NavMode.CLEAR, saveVisible = true)
+                          toolbarMode = NavMode.CLEAR, saveVisible = true, info = it.toString(range.get().toInt()))
                     }
                   }
             }
@@ -65,7 +70,8 @@ class DirectionsModel @Inject constructor(
         intents.date().subscribe { state.next { copy(date = it) } },
         intents.recurrence().subscribe { state.next { copy(recurrence = it) } },
         intents.toolbarNav().map { state.value.toolbarMode }.subscribe {
-          if (it == NavMode.BACK) navigation.onNext(GoBack) else state.onNext(DirectionState(mapLoading = false))
+          if (it == NavMode.BACK) navigation.onNext(GoBack)
+          else state.next { DirectionState(mapLoading = false, date = date, recurrence = recurrence) }
         },
         intents.toolbarMenu()
             .map { Route(date = state.value.date!!, recurrence = state.value.recurrence!!) }
@@ -76,7 +82,6 @@ class DirectionsModel @Inject constructor(
                   .flatMap { Single.fromCallable { routeStatsDao.insert(it) } }
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .log("inserted")
             .doOnNext { navigation.onNext(GoBack) }
             .subscribe()
     )

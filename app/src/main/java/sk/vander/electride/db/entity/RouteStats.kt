@@ -2,8 +2,8 @@ package sk.vander.electride.db.entity
 
 import android.arch.persistence.room.*
 import com.mapbox.services.api.directions.v5.models.DirectionsResponse
-import sk.vander.electride.ui.format
-import java.util.concurrent.TimeUnit
+import sk.vander.electride.ui.toDmhs
+import sk.vander.electride.ui.toKm
 
 @Entity(tableName = "route_stats",
     indices = arrayOf(Index("routeId")),
@@ -27,8 +27,8 @@ data class RouteStats(
 ) {
 
   override fun toString() =
-      "Distance=${distance.div(1000).format(2)} km, " +
-          "Duration=${TimeUnit.SECONDS.toMinutes(duration.toLong())} min,\n\n" +
+      "Distance=${distance.toKm()}, " +
+          "Duration=${duration.toDmhs()},\n\n" +
           waypoints.joinToString("\n\n")
 
   companion object {

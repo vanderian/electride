@@ -44,7 +44,8 @@ data class DirectionState(
     val saveVisible: Boolean = false,
     val loading: Boolean = false,
     val date: LocalDate? = null,
-    val recurrence: Recurrence? = null
+    val recurrence: Recurrence? = null,
+    val info: String = ""
 ) : Screen.State
 
 interface DirectionIntents : Screen.Intents {

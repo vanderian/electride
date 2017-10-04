@@ -114,22 +114,28 @@ class DirectionsScreen : MapBoxScreen<DirectionsModel, DirectionState, Direction
       state.points.map { it.point(context, R.drawable.shape_dot, R.color.amber_600) }
           .let { if (it.isNotEmpty() && it.size != map.markers.size) map.addMarker(it.last()) }
       title.text = title(state)
-      info.text = state.response?.text() ?: map.markers.map { it.position }.joinToString("\n\n")
-      state.polyline?.let { map.newLine(context, it) }
+      info.text = state.info
+      state.polyline?.let {
+        if (map.polylines.isEmpty()) {
+          map.newLine(context, it)
+          state.response!!.waypoints
+              .map { it.asLatLng().point(context, R.drawable.ic_place_black_24dp, R.color.colorPrimary).title(it.name) }
+              .drop(1).dropLast(1)
+              .forEach { map.addMarker(it) }
+        }
+      }
     }
   }
 
-  fun View.toggle(expand: Boolean) {
+  private fun View.toggle(expand: Boolean) {
     BottomSheetBehavior.from(this).state =
         if (expand) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_COLLAPSED
   }
 
-  fun title(state: DirectionState): String =
-      if (state.response != null) {
-        getString(R.string.has_way_points, state.response.waypoints.size)
-      } else if (state.points.isNotEmpty()) {
-        getString(R.string.has_points, state.points.size)
-      } else {
-        getString(R.string.no_points)
+  private fun title(state: DirectionState): String =
+      when {
+        state.response != null -> getString(R.string.has_way_points, state.response.waypoints.size)
+        state.points.isNotEmpty() -> getString(R.string.has_points, state.points.size)
+        else -> getString(R.string.no_points)
       }
 }

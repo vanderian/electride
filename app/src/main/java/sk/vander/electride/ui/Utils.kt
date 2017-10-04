@@ -26,12 +26,12 @@ import com.mapbox.mapboxsdk.geometry.LatLngBounds
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.services.Constants
 import com.mapbox.services.api.directions.v5.models.DirectionsResponse
+import com.mapbox.services.api.directions.v5.models.DirectionsWaypoint
 import com.mapbox.services.commons.geojson.LineString
 import com.mapbox.services.commons.models.Position
 import org.threeten.bp.Duration
 import org.threeten.bp.temporal.ChronoUnit
 import sk.vander.electride.R
-import java.util.concurrent.TimeUnit
 
 /**
  * @author marian on 23.9.2017.
@@ -90,10 +90,13 @@ fun Double.toKm() = this.div(1000).format(2) + " km"
 
 fun Double.toDmhs() = Duration.ofSeconds(this.toLong()).format()
 
-fun DirectionsResponse.text() =
-    "Distance=${routes.single().distance.div(1000).format(2)} km, " +
-        "Duration=${TimeUnit.SECONDS.toMinutes(routes.single().duration.toLong())} min,\n\n" +
-        waypoints.map { "${it.name} - ${it.asPosition().latLng()}]" }.joinToString("\n\n")
+fun DirectionsWaypoint.asLatLng() = asPosition().latLng()
+
+fun DirectionsResponse.toString(range: Int) =
+    "Distance=${routes.single().distance.toKm()}, " +
+        "Duration=${routes.single().duration.toDmhs()}, " +
+        "Recharges=${routes.single().distance.recharges(range)}\n\n" +
+        waypoints.joinToString("\n\n") { "${it.name} - ${it.asPosition().latLng()}]" }
 
 fun Duration.format():String {
   val days = toDays()
