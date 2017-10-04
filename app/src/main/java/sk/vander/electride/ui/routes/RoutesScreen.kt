@@ -45,7 +45,7 @@ class RoutesScreen : Screen<RoutesModel, ListState<RouteItem>, RouteIntents>(Rou
   }
 
   override fun intents(): RouteIntents = object : RouteIntents {
-    override fun menu(): Observable<MenuItem> = toolbar.itemClicks().share()
+    override fun menu(): Observable<MenuItem> = toolbar.itemClicks()
     override fun newRoute(): Observable<Unit> = fab.clicks()
     override fun routeSelected(): Observable<Route> = adapter.itemEventSource.toObservable()
   }

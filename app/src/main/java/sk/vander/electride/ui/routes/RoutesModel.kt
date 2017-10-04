@@ -1,5 +1,6 @@
 package sk.vander.electride.ui.routes
 
+import android.view.MenuItem
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,16 +28,21 @@ class RoutesModel @Inject constructor(
           Observable.merge(
               intents.newRoute().map { NextScreen(DirectionsScreen()) },
               intents.routeSelected().map { NextScreen(RouteDetailScreen.newInstance(it.id)) },
-              intents.menu().filter { it.itemId == R.id.action_settings }
-                  .map { NextStage(SettingsActivity::class) },
-              intents.menu().filter { it.itemId == R.id.action_reports }
-                  .map { NextScreen(SummaryScreen()) }
+              intents.menu().map(menu())
           ).doOnNext { navigation.onNext(it) },
           database().toObservable()
       )
           .subscribe()
 
-  fun database(): Flowable<ListState<RouteItem>> = routeDao.queryAllWithStats()
+  private fun menu() = { menuItem: MenuItem ->
+    when (menuItem.itemId) {
+      R.id.action_settings -> NextStage(SettingsActivity::class)
+      R.id.action_reports -> NextScreen(SummaryScreen())
+      else -> throw IllegalStateException()
+    }
+  }
+
+  private fun database(): Flowable<ListState<RouteItem>> = routeDao.queryAllWithStats()
       .map { it.map { RouteItem(it) } }
       .map { ListState(it, false, it.isEmpty()) }
       .observeOn(AndroidSchedulers.mainThread())
