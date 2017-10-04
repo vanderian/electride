@@ -9,6 +9,7 @@
     <string name="action_add_from_map">Add from map</string>
     <string name="action_reports">Reports</string>
     <string name="action_settings">Settings</string>
+    <string name="action_today">action_today</string>
 
     <string name="no_items">No Items available.</string>
     <string name="route_details">Route details</string>
@@ -33,6 +34,8 @@
 
     <string name="pref_title_range">Range</string>
     <string name="pref_summary_range">An estimated range of your car in KM</string>
-    <string name="action_today">action_today</string>
+    <string name="pref_summary_offroute">Distance of EV charging stations from displayed route in KM</string>
+    <string name="pref_title_offroute">Off route distance</string>
+    <string name="pref_version_name">Version name</string>
 
 </resources>

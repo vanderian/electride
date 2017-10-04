@@ -5,7 +5,7 @@
     >
 
     <application
-        android:name=".ReleaseApp"
+        android:name=".DebugApp"
         android:theme="@style/AppTheme"
         tools:replace="name"
         />

@@ -1,7 +1,10 @@
 package sk.vander.electride
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import sk.vander.lib.ui.ActivityHierarchyServer
 import sk.vander.lib.ui.ViewContainer
 
