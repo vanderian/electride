@@ -20,6 +20,9 @@ android {
         buildConfigField("String", "MAPBOX_TOKEN", "\"${rootProject.ext.props.mapbox}\"")
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+
+        ext.betaDistributionGroupAliases = "electride"
+        ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
     }
 
     buildTypes {
@@ -95,3 +98,5 @@ dependencies {
 
     implementation project(':lib')
 }
+
+tasks.create("release_notes").dependsOn ""

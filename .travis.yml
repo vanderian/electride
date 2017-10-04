@@ -8,4 +8,6 @@ android:
     - android-26
 
 script:
-   - ./gradlew build connectedCheck
+   - ./gradlew assembleRelease --stacktrace --no-daemon
+after_script:
+   - ./gradlew crashlyticsUploadDistributionRelease
