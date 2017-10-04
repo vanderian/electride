@@ -16,6 +16,7 @@ import org.threeten.bp.LocalDate
 import sk.vander.electride.R
 import sk.vander.electride.db.entity.Route
 import sk.vander.electride.db.entity.RouteStats
+import sk.vander.electride.db.entity.RouteWithStats
 import sk.vander.lib.ui.screen.Screen
 
 /**
@@ -42,7 +43,7 @@ data class DirectionState(
     val loading: Boolean = false,
     val date: LocalDate? = null,
     val recurrence: Recurrence? = null
-    ) : Screen.State
+) : Screen.State
 
 interface DirectionIntents : Screen.Intents {
   fun compute(): Observable<Unit>
@@ -94,4 +95,22 @@ interface DetailIntents : Screen.Intents {
   fun args(): Single<Long>
   fun navigation(): Observable<MenuItem>
   fun mapReady(): Single<Unit>
+}
+
+//summary
+data class SummaryState(
+    val date: LocalDate = LocalDate.now()
+) : Screen.State
+
+interface SummaryIntents : Screen.Intents {
+  fun toolbarNav(): Observable<Unit>
+  fun toolbarMenu(): Observable<MenuItem>
+}
+
+data class SummaryPageState(
+    val items: List<RouteWithStats> = emptyList()
+) : Screen.State
+
+interface SummaryPageIntents : Screen.Intents {
+  fun args(): Single<Pair<LocalDate, LocalDate>>
 }

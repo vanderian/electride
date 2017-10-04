@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_from_map"
-        android:title="@string/action_add_from_map"/>
+        android:id="@+id/action_reports"
+        android:title="@string/action_reports"/>
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"/>

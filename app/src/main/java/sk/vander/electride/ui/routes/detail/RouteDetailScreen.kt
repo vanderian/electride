@@ -41,7 +41,7 @@ class RouteDetailScreen : MapBoxScreen<RouteDetailModel, DetailState, DetailInte
   override fun render(state: DetailState) {
     viewAnimator.displayedChildId = state.view
     textRoute.text = state.route.toString()
-    textRouteStats.text = state.stats?.text()
+    textRouteStats.text = state.stats.toString()
     textRecharges.text = when {
       state.recharges == 0 -> getString(R.string.no_recharges)
       state.recharges > 0 -> getString(R.string.some_recharges, state.recharges)

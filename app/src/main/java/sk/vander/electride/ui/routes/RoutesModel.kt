@@ -8,6 +8,7 @@ import sk.vander.electride.R
 import sk.vander.electride.SettingsActivity
 import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.ui.RouteIntents
+import sk.vander.electride.ui.report.SummaryScreen
 import sk.vander.electride.ui.routes.adapter.RouteItem
 import sk.vander.electride.ui.routes.detail.RouteDetailScreen
 import sk.vander.electride.ui.routes.directions.DirectionsScreen
@@ -27,7 +28,9 @@ class RoutesModel @Inject constructor(
               intents.newRoute().map { NextScreen(DirectionsScreen()) },
               intents.routeSelected().map { NextScreen(RouteDetailScreen.newInstance(it.id)) },
               intents.menu().filter { it.itemId == R.id.action_settings }
-                  .map { NextStage(SettingsActivity::class) }
+                  .map { NextStage(SettingsActivity::class) },
+              intents.menu().filter { it.itemId == R.id.action_reports }
+                  .map { NextScreen(SummaryScreen()) }
           ).doOnNext { navigation.onNext(it) },
           database().toObservable()
       )

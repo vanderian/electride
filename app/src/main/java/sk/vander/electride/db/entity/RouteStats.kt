@@ -26,7 +26,7 @@ data class RouteStats(
     val waypoints: List<Waypoint>
 ) {
 
-  fun text() =
+  override fun toString() =
       "Distance=${distance.div(1000).format(2)} km, " +
           "Duration=${TimeUnit.SECONDS.toMinutes(duration.toLong())} min,\n\n" +
           waypoints.joinToString("\n\n")

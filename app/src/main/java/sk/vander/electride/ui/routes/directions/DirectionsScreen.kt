@@ -34,8 +34,8 @@ class DirectionsScreen : MapBoxScreen<DirectionsModel, DirectionState, Direction
     Maybe.create<LocalDate> { emitter ->
       val date = LocalDate.now()
       val d = DatePickerDialog(context,
-          DatePickerDialog.OnDateSetListener { _, y, m, d -> emitter.onSuccess(LocalDate.of(y, m, d)) },
-          date.year, date.monthValue, date.dayOfMonth)
+          DatePickerDialog.OnDateSetListener { _, y, m, d -> emitter.onSuccess(LocalDate.of(y, m + 1, d)) },
+          date.year, date.monthValue - 1, date.dayOfMonth)
       d.setOnDismissListener { emitter.onComplete() }
       emitter.setCancellable { d.dismiss() }
       d.show()

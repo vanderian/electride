@@ -3,6 +3,8 @@ package sk.vander.electride
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import sk.vander.electride.service.LocationService
+import sk.vander.electride.ui.report.page.SummaryPage
+import sk.vander.electride.ui.report.SummaryScreen
 import sk.vander.electride.ui.routes.RoutesScreen
 import sk.vander.electride.ui.routes.detail.RouteDetailScreen
 import sk.vander.electride.ui.routes.directions.DirectionsScreen
@@ -26,6 +28,13 @@ object InjectorFactoriesModules {
 
     @ScreenScope @ContributesAndroidInjector()
     abstract fun contributeDirectionsScreen(): DirectionsScreen
+
+    @ScreenScope @ContributesAndroidInjector()
+    abstract fun contributeSummaryScreen(): SummaryScreen
+
+    @ScreenScope @ContributesAndroidInjector()
+    abstract fun contributeSummaryPage(): SummaryPage
+
   }
 
   @Module
