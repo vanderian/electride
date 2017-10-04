@@ -13,6 +13,7 @@ import com.mapbox.services.api.directions.v5.models.DirectionsResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.threeten.bp.LocalDate
+import org.threeten.bp.temporal.ChronoUnit
 import sk.vander.electride.R
 import sk.vander.electride.db.entity.Route
 import sk.vander.electride.db.entity.RouteStats
@@ -59,13 +60,13 @@ enum class NavMode(@DrawableRes val drawableRes: Int) {
   CLEAR(R.drawable.avd_close_back)
 }
 
-enum class Recurrence(@StringRes val string: Int) {
-  NONE(R.string.recurrence_none),
-  DAILY(R.string.recurrence_daily),
-  WEEKDAYS(R.string.recurrence_weekdays),
-  WEEKLY(R.string.recurrence_weekly),
-  MONTHLY(R.string.recurrence_monthly),
-  YEARLY(R.string.recurrence_yearly);
+enum class Recurrence(@StringRes val string: Int, val unit: ChronoUnit) {
+  NONE(R.string.recurrence_none, ChronoUnit.FOREVER),
+  DAILY(R.string.recurrence_daily, ChronoUnit.DAYS),
+  WEEKDAYS(R.string.recurrence_weekdays, ChronoUnit.DAYS),
+  WEEKLY(R.string.recurrence_weekly, ChronoUnit.WEEKS),
+  MONTHLY(R.string.recurrence_monthly, ChronoUnit.MONTHS),
+  YEARLY(R.string.recurrence_yearly, ChronoUnit.YEARS);
 
   companion object {
     fun from(@IdRes itemId: Int) = when (itemId) {
@@ -108,7 +109,7 @@ interface SummaryIntents : Screen.Intents {
 }
 
 data class SummaryPageState(
-    val items: List<RouteWithStats> = emptyList()
+    val items: List<Pair<RouteWithStats, List<RouteWithStats>>> = emptyList()
 ) : Screen.State
 
 interface SummaryPageIntents : Screen.Intents {

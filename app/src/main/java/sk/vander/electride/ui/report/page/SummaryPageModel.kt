@@ -5,7 +5,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
-import org.threeten.bp.temporal.ChronoUnit
 import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.db.dao.RouteStatsDao
 import sk.vander.electride.db.entity.RouteWithStats
@@ -25,7 +24,7 @@ class SummaryPageModel @Inject constructor(
       intents.args()
           .flatMapPublisher { range ->
             routeDao.queryWithStats(range.first, range.second)
-                .map { generateRecurrent(range, it) }
+                .map { it.map { it.to(generate(range)(it)) }.filterNot { it.second.isEmpty() } }
           }
           .observeOn(AndroidSchedulers.mainThread())
           .doOnNext { state.next { copy(items = it) } }
@@ -36,30 +35,29 @@ class SummaryPageModel @Inject constructor(
 //    while (true) yield(initial.copy(date = in))
 //  }
 
-  private fun generateRecurrent(range: Pair<LocalDate, LocalDate>, list: List<RouteWithStats>): List<RouteWithStats> {
-    val grouped = list.groupBy { it.recurrence }
-    val once = grouped[Recurrence.NONE] ?: emptyList()
-    val daily = grouped[Recurrence.DAILY]?.map {
-      val initial = if (it.date.isBefore(range.first)) it.copy(date = range.first) else it
-      generateSequence(initial, { if (it.date.isBefore(range.second)) it.copy(date = it.date.plus(1, ChronoUnit.DAYS)) else null })
-          .toList()
-    }?.flatten() ?: emptyList()
-    val weekdays = daily.filterNot { it.date.dayOfWeek == DayOfWeek.SATURDAY || it.date.dayOfWeek == DayOfWeek.SUNDAY }
-    val weekly = grouped[Recurrence.WEEKLY]?.map {
-      val initial = if (it.date.isBefore(range.first)) it.copy(date = range.first) else it
-      generateSequence(initial, { if (it.date.isBefore(range.second)) it.copy(date = it.date.plus(1, ChronoUnit.DAYS)) else null })
-          .toList()
-    }?.flatten() ?: emptyList()
-    val monthly = grouped[Recurrence.DAILY]?.map {
-      val initial = if (it.date.isBefore(range.first)) it.copy(date = range.first) else it
-      generateSequence(initial, { if (it.date.isBefore(range.second)) it.copy(date = it.date.plus(1, ChronoUnit.DAYS)) else null })
-          .toList()
-    }?.flatten() ?: emptyList()
-    val yearly = grouped[Recurrence.DAILY]?.map {
-      val initial = if (it.date.isBefore(range.first)) it.copy(date = range.first) else it
-      generateSequence(initial, { if (it.date.isBefore(range.second)) it.copy(date = it.date.plus(1, ChronoUnit.DAYS)) else null })
-          .toList()
-    }?.flatten() ?: emptyList()
-    return once.plus(daily)
+  private fun generate(range: Pair<LocalDate, LocalDate>): (RouteWithStats) -> List<RouteWithStats> = {
+    when (it.recurrence) {
+      Recurrence.NONE -> listOf(it)
+      Recurrence.WEEKDAYS -> it.generateForType(range)
+          .filterNot { it.date.dayOfWeek == DayOfWeek.SATURDAY || it.date.dayOfWeek == DayOfWeek.SUNDAY }
+      else -> it.generateForType(range)
+    }
   }
+
+  private fun RouteWithStats.generateForType(range: Pair<LocalDate, LocalDate>): List<RouteWithStats> {
+      val initial = if (date.isBefore(range.first)) {
+        var newDate = date.plus(date.until(range.first, recurrence.unit), recurrence.unit)
+        newDate = if (newDate.isWithin(range)) newDate else newDate.plus(1, recurrence.unit)
+        if (newDate.isWithin(range)) copy(date = newDate) else null
+      } else {
+        this@generateForType
+      }
+    return generateSequence(initial, {
+      val newDate = it.date.plus(1, recurrence.unit)
+      if (newDate.isWithin(range)) it.copy(date = newDate) else null
+    }).toList()
+  }
+
+  private fun LocalDate.isWithin(range: Pair<LocalDate, LocalDate>) =
+      isEqual(range.first) || isEqual(range.second) || (isAfter(range.first) && isBefore(range.second))
 }
