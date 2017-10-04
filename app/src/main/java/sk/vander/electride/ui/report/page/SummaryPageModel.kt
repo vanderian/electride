@@ -1,23 +1,26 @@
 package sk.vander.electride.ui.report.page
 
+import com.f2prateek.rx.preferences2.Preference
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
+import sk.vander.electride.data.RangePref
 import sk.vander.electride.db.dao.RouteDao
-import sk.vander.electride.db.dao.RouteStatsDao
 import sk.vander.electride.db.entity.RouteWithStats
 import sk.vander.electride.ui.Recurrence
 import sk.vander.electride.ui.SummaryPageIntents
 import sk.vander.electride.ui.SummaryPageState
+import sk.vander.electride.ui.report.model.RangeReport
+import sk.vander.electride.ui.report.model.RouteReport
 import sk.vander.lib.ui.screen.Result
 import sk.vander.lib.ui.screen.ScreenModel
 import javax.inject.Inject
 
 class SummaryPageModel @Inject constructor(
     private val routeDao: RouteDao,
-    private val routeStatsDao: RouteStatsDao
+    @RangePref private val rangePref: Preference<String>
 ) : ScreenModel<SummaryPageState, SummaryPageIntents>(SummaryPageState()) {
 
   override fun collectIntents(intents: SummaryPageIntents, result: Observable<Result>): Disposable =
@@ -25,15 +28,11 @@ class SummaryPageModel @Inject constructor(
           .flatMapPublisher { range ->
             routeDao.queryWithStats(range.first, range.second)
                 .map { it.map { it.to(generate(range)(it)) }.filterNot { it.second.isEmpty() } }
+                .map { it.map { RouteReport(it, rangePref.get().toInt()) } }
           }
           .observeOn(AndroidSchedulers.mainThread())
-          .doOnNext { state.next { copy(items = it) } }
+          .doOnNext { state.next { copy(items = it, report = RangeReport(it, rangePref.get().toInt())) } }
           .subscribe()
-
-//  private fun lazySeq(initial: RouteWithStats, chronoUnit: ChronoUnit): Sequence<RouteWithStats> = buildSequence {
-//    yield(initial)
-//    while (true) yield(initial.copy(date = in))
-//  }
 
   private fun generate(range: Pair<LocalDate, LocalDate>): (RouteWithStats) -> List<RouteWithStats> = {
     when (it.recurrence) {

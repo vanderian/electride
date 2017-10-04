@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
 
-    <TextView
-        android:id="@+id/text_range"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        tools:text="asdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssss"
-        />
+        >
+
+        <TextView
+            android:id="@+id/text_range_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            tools:text="adasaafafasfasf a"
+            />
+
+        <TextView
+            android:id="@+id/text_route_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintTop_toBottomOf="@+id/text_range_report"
+            tools:text="asdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssssasdakjsd asd aadaa a s asdasssssssssss"
+            />
+    </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

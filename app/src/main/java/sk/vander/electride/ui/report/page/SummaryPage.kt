@@ -12,7 +12,8 @@ import sk.vander.electride.ui.SummaryPageState
 import sk.vander.lib.ui.screen.Screen
 
 class SummaryPage : Screen<SummaryPageModel, SummaryPageState, SummaryPageIntents>(SummaryPageModel::class) {
-  @BindView(R.id.text_range) lateinit var range: TextView
+  @BindView(R.id.text_range_report) lateinit var range: TextView
+  @BindView(R.id.text_route_report) lateinit var routes: TextView
 
   override fun layout(): Int = R.layout.page_summary
 
@@ -23,7 +24,9 @@ class SummaryPage : Screen<SummaryPageModel, SummaryPageState, SummaryPageIntent
   }
 
   override fun render(state: SummaryPageState) {
-    range.text = state.items.joinToString("\n\n")
+    state.report?.let { range.text = it.toString() }
+    routes.text = state.items.joinToString("\n\n")
+
   }
 
   companion object {

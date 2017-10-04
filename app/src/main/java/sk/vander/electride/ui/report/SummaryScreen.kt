@@ -10,6 +10,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.itemClicks
 import com.jakewharton.rxbinding2.support.v7.widget.navigationClicks
 import io.reactivex.Observable
 import org.threeten.bp.LocalDate
+import org.threeten.bp.YearMonth
 import org.threeten.bp.format.TextStyle
 import org.threeten.bp.temporal.ChronoUnit
 import sk.vander.electride.R
@@ -31,6 +32,7 @@ class SummaryScreen : Screen<SummaryModel, SummaryState, SummaryIntents>(Summary
       override fun onPageSelected(position: Int) {
         super.onPageSelected(position)
         toolbar.title = pager.title(position)
+        toolbar.subtitle = pager.subtitle(position)
       }
     })
     pager.adapter = Adapter(childFragmentManager)
@@ -59,4 +61,9 @@ class SummaryScreen : Screen<SummaryModel, SummaryState, SummaryIntents>(Summary
         }
       }
 
+  private fun ViewPager.subtitle(position: Int): String =
+      (adapter as Adapter).let {
+        val date = it.dateToItem(position).first
+        if (YearMonth.now().year != date.year) date.year.toString() else ""
+      }
 }

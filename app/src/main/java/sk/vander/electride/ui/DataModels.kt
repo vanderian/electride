@@ -17,7 +17,8 @@ import org.threeten.bp.temporal.ChronoUnit
 import sk.vander.electride.R
 import sk.vander.electride.db.entity.Route
 import sk.vander.electride.db.entity.RouteStats
-import sk.vander.electride.db.entity.RouteWithStats
+import sk.vander.electride.ui.report.model.RangeReport
+import sk.vander.electride.ui.report.model.RouteReport
 import sk.vander.lib.ui.screen.Screen
 
 /**
@@ -109,7 +110,8 @@ interface SummaryIntents : Screen.Intents {
 }
 
 data class SummaryPageState(
-    val items: List<Pair<RouteWithStats, List<RouteWithStats>>> = emptyList()
+    val items: List<RouteReport> = emptyList(),
+    val report: RangeReport? = null
 ) : Screen.State
 
 interface SummaryPageIntents : Screen.Intents {
