@@ -7,6 +7,7 @@ apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'io.fabric'
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.gladed.androidgitversion'
 
 apply from: rootProject.file("gradle/compile.gradle")
 apply from: rootProject.file("gradle/android.gradle")
@@ -14,8 +15,8 @@ apply from: rootProject.file("gradle/android.gradle")
 android {
     defaultConfig {
         applicationId "sk.vander.electride"
-        versionCode 1
-        versionName "1.0"
+        versionName androidGitVersion.name()
+        versionCode androidGitVersion.code()
         buildConfigField("String", "MAPBOX_TOKEN", "\"${rootProject.ext.props.mapbox}\"")
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true

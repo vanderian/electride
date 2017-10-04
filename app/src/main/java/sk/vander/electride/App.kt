@@ -26,13 +26,6 @@ abstract class App : BaseApp() {
     Mapbox.getInstance(this, BuildConfig.MAPBOX_TOKEN)
     AndroidThreeTen.init(this)
     PreferenceManager.setDefaultValues(this, R.xml.preferences, true)
-    Fabric.with(this, Crashlytics())
-    Timber.plant(object : Timber.DebugTree() {
-      override fun log(priority: Int, tag: String?, message: String?, t: Throwable?) {
-        if (priority > Log.DEBUG) Crashlytics.log(priority, tag, message)
-        t?.let { Crashlytics.logException(t) }
-      }
-    })
   }
 
   @dagger.Module(includes = arrayOf(BaseAppModule::class))
