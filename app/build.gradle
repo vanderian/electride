@@ -30,7 +30,7 @@ android {
             travis {
                 storeFile rootProject.file("private_keystore.jks")
                 storePassword System.getenv("storepass")
-                keyAlias electride
+                keyAlias System.getenv("keyalias")
                 keyPassword System.getenv("keypass")
             }
         }
