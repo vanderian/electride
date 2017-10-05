@@ -154,7 +154,7 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
-fabric.properties
+app/fabric.properties
 
 ### AndroidStudio Patch ###
 
@@ -163,3 +163,4 @@ fabric.properties
 # End of https://www.gitignore.io/api/android,androidstudio
 tokens.properties
 release_notes.txt
+*.jks
