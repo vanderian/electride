@@ -50,5 +50,5 @@ static def isTravis() {
 }
 
 task releaseNotes() {
-    "git log `git describe --tags --abbrev=0`..HEAD --no-merges --pretty=format:%s >> release_notes.txt".execute().text.trim()
+    ['sh', '-c', 'git log `git describe --tags --abbrev=0`..HEAD --no-merges --pretty=format:%s >> release_notes.txt'].execute()
 }
