@@ -17,6 +17,8 @@ env:
   - secure: nqCGBafzHZxGhIIB/A7NyRDOY5DAJ9HrsBdeg2zdbraePXIz2hfVN/SkFgHaqe2qN0ngfyxtfnXmgJCWao0sofApXY7FQrP0pqOIbFeio2dMEZvzStAe0IXYvcyvLh+HZwPylr9/3i0Kb3sMDKsZ2PTJUWdQ3IMYbNw8E9Xm6TXWS2ITXXZ+YfclAr0EEC1Io1os3P3/Nw+wTRBJNy7IyTI8NdGyBOlwyhgb9B8EzWFfIYqM9xQpBE3i+sT6NYYG29UAs7x+KbCgl0TiW3+JGOzxtNVWn6DAaPEa7ELTXu1NMGLkiEWz2UvigSnTZzTLNn7EaOqSxCyte0noc9QWHwEhf8IRcKmGGpZKJRbTiHkfHl06eOq+LYxxW2nA4grc4dpqiN7MvCoUfVQSB+BzwHuqTdKcsNiN0zUaJt78PnNanMInK9+2BYOZm5GSyx9PG3N4dHhg0gDPOEWTntt7V5yXlbz5IhxtvMPh8SrOxyFPWtu542zNY03ZZ4SVrz0qndy9c8NaELSBl7EZY412xw6LfGPFi4+HC3676NBs/CeSY97RhoLuADaMBeSrmfUKr3c2Im7jUNy/wTvrHsgb2myvpWiDM6j/X7aAJgi8OzqvQQqIVO8QkuDBeqe8rSXmn5jnwumROKKmLj8ao67RBmIT7fhUpOSJdu3GsOsnt4M=
 before_install:
 - openssl aes-256-cbc -K $encrypted_4bb6d5505985_key -iv $encrypted_4bb6d5505985_iv
+  -in fabric.properties.enc -out app/fabric.properties -d
+- openssl aes-256-cbc -K $encrypted_4bb6d5505985_key -iv $encrypted_4bb6d5505985_iv
   -in tokens.properties.enc -out tokens.properties -d
 - openssl aes-256-cbc -K $encrypted_4bb6d5505985_key -iv $encrypted_4bb6d5505985_iv
   -in private_keystore.jks.enc -out private_keystore.jks -d
@@ -26,10 +28,4 @@ before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 after_success:
-- cp $TRAVIS_BUILD_DIR/private_keystore.jks $HOME
-- cd app/build/outputs/apk/
-- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/private_keystore.jks
-  -storepass $storepass -keypass $keypass app-release-unsigned.apk electride
-- jarsigner -verify app-release-unsigned.apk
-- "${ANDROID_HOME}/build-tools/26.0.2/zipalign -v 4 app-release-unsigned.apk TravisExample.apk"
 - "./gradlew releaseNotes crashlyticsUploadDistributionRelease"

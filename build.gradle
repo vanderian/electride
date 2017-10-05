@@ -45,6 +45,10 @@ if (file("tokens.properties").exists()) {
     }
 }
 
+static def isTravis() {
+    System.getenv("TRAVIS")
+}
+
 task releaseNotes() {
     "git log `git describe --tags --abbrev=0`..HEAD --no-merges --pretty=format:%s >> release_notes.txt".execute().text.trim()
 }

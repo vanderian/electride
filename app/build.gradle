@@ -25,6 +25,17 @@ android {
         ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
     }
 
+    signingConfigs {
+        if (isTravis()) {
+            travis {
+                storeFile rootProject.file("private_keystore.jks")
+                storePassword System.getenv("storepass")
+                keyAlias electride
+                keyPassword System.getenv("keypass")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -32,9 +43,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (isTravis()) {
+                signingConfig = signingConfigs.travis
+            }
         }
     }
-    buildToolsVersion '26.0.2'
 }
 
 kapt {
@@ -98,5 +111,3 @@ dependencies {
 
     implementation project(':lib')
 }
-
-tasks.create("release_notes").dependsOn ""
