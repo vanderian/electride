@@ -49,7 +49,7 @@ class RouteDetailModel @Inject constructor(
           },
           intents.navigation().doOnNext { state.next { copy(view = it.itemId) } }
               .filter { it.itemId == R.id.view_mapbox }
-              .filter { state.value.markers.isEmpty() }
+              .filter { state.value.chargeMarkers.isEmpty() }
               .flatMap { chargePois() },
           intents.mapReady().doOnSuccess { state.next { copy(mapLoading = false) } }.toObservable()
       )
@@ -57,8 +57,9 @@ class RouteDetailModel @Inject constructor(
           .subscribe()
 
   private fun chargePois(): Observable<List<MarkerOptions>> = Observable.just(state.value.polyline!!.points)
-      .map { it.filter(offRoute.get().toInt() * 1000) }
-      .map { it.map { service.fetchPoi(it.latitude, it.longitude, offRoute.get().toInt()) } }
+      .map { it.filter(range.get().toInt() * 1000).drop(1) }
+      .doOnNext { state.next { copy(helpMarkers = it) } }
+      .map { it.map { service.fetchPoi(it.latitude, it.longitude, range.get().toInt()).map { it.take(3) } } }
       .flatMapSingle {
         Observable.fromIterable(it)
             .mergeAllSingles()
@@ -68,10 +69,12 @@ class RouteDetailModel @Inject constructor(
       .log("has pois")
       .map { it.map { it.marker() } }
       .observeOn(AndroidSchedulers.mainThread())
-      .doOnNext { state.next { copy(markers = it) } }
+      .doOnNext { state.next { copy(chargeMarkers = it) } }
 
   private fun List<LatLng>.filter(distance: Int) =
-      this.foldRight(listOf(first()), { point, acc -> if (point.distanceTo(acc.last()) >= distance) acc.plus(point) else acc })
+      this.fold(listOf(first()), { acc, point ->
+        if (point.distanceTo(acc.last()) >= distance) acc.plus(point) else acc
+      })
 
   private fun ChargePoint.marker(): MarkerOptions = MarkerOptions()
       .position(LatLng(addressInfo.latitude, addressInfo.longitude))

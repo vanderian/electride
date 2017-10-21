@@ -91,7 +91,8 @@ data class DetailState(
     val route: Route? = null,
     val stats: RouteStats? = null,
     val recharges: Int = -1,
-    val markers: List<MarkerOptions> = emptyList()
+    val chargeMarkers: List<MarkerOptions> = emptyList(),
+    val helpMarkers: List<LatLng> = emptyList()
 ) : Screen.State
 
 interface DetailIntents : Screen.Intents {

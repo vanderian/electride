@@ -53,8 +53,9 @@ class RouteDetailScreen : MapBoxScreen<RouteDetailModel, DetailState, DetailInte
           newLine(context, state.polyline)
           animateCamera(state.polyline.camera(UiConst.CAMERA_PADDING), UiConst.CAMERA_UPDATE)
         }
-        if (markers.size == 2 && state.markers.isNotEmpty()) {
-          state.markers.forEach { addMarker(it.icon(R.drawable.ic_ev_station_black_24dp.icon(context, android.R.color.white))) }
+        if (markers.size == 2 && state.chargeMarkers.isNotEmpty()) {
+          state.helpMarkers.forEach { addMarker(it.point(context, R.drawable.shape_dot, R.color.green_600)) }
+          state.chargeMarkers.forEach { addMarker(it.icon(R.drawable.ic_ev_station_black_24dp.icon(context, android.R.color.white))) }
         }
       }
     }

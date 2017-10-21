@@ -22,7 +22,7 @@ android {
         multiDexEnabled true
 
         ext.betaDistributionGroupAliases = "electride"
-        ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
+        ext.betaDistributionReleaseNotesFilePath = "changelog.md"
     }
 
     signingConfigs {
