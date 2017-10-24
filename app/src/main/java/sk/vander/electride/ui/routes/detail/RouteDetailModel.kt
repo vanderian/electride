@@ -9,7 +9,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.mergeAllSingles
 import io.reactivex.rxkotlin.zipWith
 import sk.vander.electride.R
-import sk.vander.electride.data.OffRoutePref
 import sk.vander.electride.data.RangePref
 import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.db.dao.RouteStatsDao
@@ -31,7 +30,6 @@ class RouteDetailModel @Inject constructor(
     private val routeDao: RouteDao,
     private val routeStatsDao: RouteStatsDao,
     @RangePref private val range: Preference<String>,
-    @OffRoutePref private val offRoute: Preference<String>,
     private val service: OpenChargeApiService
 ) : ScreenModel<DetailState, DetailIntents>(DetailState()) {
 

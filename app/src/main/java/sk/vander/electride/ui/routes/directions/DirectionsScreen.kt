@@ -124,6 +124,8 @@ class DirectionsScreen : MapBoxScreen<DirectionsModel, DirectionState, Direction
               .forEach { map.addMarker(it) }
         }
       }
+      state.helpMarkers.forEach { map.addMarker(it.point(context, R.drawable.shape_dot, R.color.green_600)) }
+      state.chargeMarkers.forEach { map.addMarker(it.icon(R.drawable.ic_ev_station_black_24dp.icon(context, android.R.color.white))) }
     }
   }
 

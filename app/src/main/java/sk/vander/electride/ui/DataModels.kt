@@ -45,7 +45,9 @@ data class DirectionState(
     val loading: Boolean = false,
     val date: LocalDate? = null,
     val recurrence: Recurrence? = null,
-    val info: String = ""
+    val info: String = "",
+    val chargeMarkers: List<MarkerOptions> = emptyList(),
+    val helpMarkers: List<LatLng> = emptyList()
 ) : Screen.State
 
 interface DirectionIntents : Screen.Intents {

@@ -1,6 +1,7 @@
 package sk.vander.electride.ui.routes.directions
 
 import com.f2prateek.rx.preferences2.Preference
+import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.services.api.directions.v5.DirectionsCriteria
@@ -12,6 +13,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.mergeAllSingles
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import sk.vander.electride.BuildConfig
@@ -20,7 +22,10 @@ import sk.vander.electride.db.dao.RouteDao
 import sk.vander.electride.db.dao.RouteStatsDao
 import sk.vander.electride.db.entity.Route
 import sk.vander.electride.db.entity.RouteStats
+import sk.vander.electride.net.api.OpenChargeApiService
+import sk.vander.electride.net.model.ChargePoint
 import sk.vander.electride.ui.*
+import sk.vander.lib.debug.log
 import sk.vander.lib.ui.screen.GoBack
 import sk.vander.lib.ui.screen.Result
 import sk.vander.lib.ui.screen.ScreenModel
@@ -32,7 +37,8 @@ import javax.inject.Inject
 class DirectionsModel @Inject constructor(
     private val routeDao: RouteDao,
     private val routeStatsDao: RouteStatsDao,
-    @RangePref private val range: Preference<String>
+    @RangePref private val range: Preference<String>,
+    private val service: OpenChargeApiService
 ) : ScreenModel<DirectionState, DirectionIntents>(DirectionState()) {
 
   override fun collectIntents(intents: DirectionIntents, result: Observable<Result>): Disposable {
@@ -64,6 +70,7 @@ class DirectionsModel @Inject constructor(
                           toolbarMode = NavMode.CLEAR, saveVisible = true, info = it.toString(range.get().toInt()))
                     }
                   }
+                  .flatMap { chargePois() }
             }
             .doOnDispose { state.next { copy(mapLoading = true) } }
             .subscribe(),
@@ -87,6 +94,32 @@ class DirectionsModel @Inject constructor(
     )
     return disposable
   }
+
+  private fun chargePois(): Observable<List<MarkerOptions>> = Observable.just(state.value.polyline!!.points)
+      .map { it.filter(range.get().toInt() * 1000).drop(1) }
+      .doOnNext { state.next { copy(helpMarkers = it) } }
+      .map { it.map { service.fetchPoi(it.latitude, it.longitude, range.get().toInt()).map { it.take(3) } } }
+      .flatMapSingle {
+        Observable.fromIterable(it)
+            .mergeAllSingles()
+            .collectInto(mutableListOf<ChargePoint>(), { acc, list -> acc.addAll(list) })
+            .map { it.toSet() }
+      }
+      .log("has pois")
+      .map { it.map { it.marker() } }
+      .observeOn(AndroidSchedulers.mainThread())
+      .doOnNext { state.next { copy(chargeMarkers = it) } }
+
+  private fun List<LatLng>.filter(distance: Int) =
+      this.fold(listOf(first()), { acc, point ->
+        if (point.distanceTo(acc.last()) >= distance) acc.plus(point) else acc
+      })
+
+  private fun ChargePoint.marker(): MarkerOptions = MarkerOptions()
+      .position(LatLng(addressInfo.latitude, addressInfo.longitude))
+      .title(addressInfo.title)
+      .snippet("${addressInfo.address}, ${addressInfo.town}")
+
 
   private fun MapboxMap.mapClicks() = Observable.create<LatLng> { emitter ->
     this.setOnMapClickListener { emitter.onNext(it) }
