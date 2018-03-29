@@ -13,6 +13,7 @@ interface Navigation
 object GoBack : Navigation
 data class NextScreen(val screen: Screen<*, *, *>) : Navigation
 data class NextStage(val clazz: KClass<out Activity>) : Navigation
+data class NextIntent(val intent: Intent) : Navigation
 data class WithResult(val intent: Intent, val requestCode: Int) : Navigation
 
 data class Result(

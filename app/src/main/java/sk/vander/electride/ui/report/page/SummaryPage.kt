@@ -1,8 +1,11 @@
 package sk.vander.electride.ui.report.page
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.widget.TextView
 import butterknife.BindView
+import com.jakewharton.rxbinding2.view.clicks
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.toSingle
 import org.threeten.bp.LocalDate
@@ -14,6 +17,7 @@ import sk.vander.lib.ui.screen.Screen
 class SummaryPage : Screen<SummaryPageModel, SummaryPageState, SummaryPageIntents>(SummaryPageModel::class) {
   @BindView(R.id.text_range_report) lateinit var range: TextView
   @BindView(R.id.text_route_report) lateinit var routes: TextView
+  @BindView(R.id.fab_share) lateinit var fabShare: FloatingActionButton
 
   override fun layout(): Int = R.layout.page_summary
 
@@ -21,6 +25,8 @@ class SummaryPage : Screen<SummaryPageModel, SummaryPageState, SummaryPageIntent
     override fun args(): Single<Pair<LocalDate, LocalDate>> = arguments.let {
       Pair(it.getSerializable(ARG_FROM) as LocalDate, it.getSerializable(ARG_UNTIL) as LocalDate).toSingle()
     }
+
+    override fun share(): Observable<Unit> = fabShare.clicks()
   }
 
   override fun render(state: SummaryPageState) {

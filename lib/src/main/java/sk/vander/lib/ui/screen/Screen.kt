@@ -49,6 +49,7 @@ abstract class Screen<T : ScreenModel<U, V>, U : Screen.State, V: Screen.Intents
           .addToBackStack("")
           .commit()
       is NextStage -> startActivity(Intent(context, navigation.clazz.java))
+      is NextIntent -> startActivity(navigation.intent)
       is WithResult ->
         if (navigation.intent.resolveActivity(context.packageManager) != null) {
           startActivityForResult(navigation.intent, navigation.requestCode)

@@ -120,4 +120,5 @@ data class SummaryPageState(
 
 interface SummaryPageIntents : Screen.Intents {
   fun args(): Single<Pair<LocalDate, LocalDate>>
+  fun share(): Observable<Unit>
 }
