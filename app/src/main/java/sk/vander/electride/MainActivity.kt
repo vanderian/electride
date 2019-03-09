@@ -23,7 +23,7 @@ class MainActivity : FragmentActivity() {
           .commit()
     }
 
-    ContextCompat.startForegroundService(this, Intent(this, LocationService::class.java))
+//    ContextCompat.startForegroundService(this, Intent(this, LocationService::class.java))
 
     RxPermissions(this).request(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION).subscribe {
       if (!it) finish()
