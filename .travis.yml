@@ -7,10 +7,9 @@ cache:
 android:
   components:
   - tools
-  - tools
   - platform-tools
-  - build-tools-26.0.2
-  - android-26
+  - build-tools-28.0.3
+  - android-28
 env:
   global:
   - secure: sy1tScXwmeOXUsLECfA/l57NX7sckCtaDu6SLH7uHMRY/EDRcUpiXGQsePINOxfsoeEXDwsFSxFu61A1KKgjh4GZSCFnI7leQjD9dhxSW+NnDWbNmKwBeKc8Y5ZHv8LPMu4vyugbA8/QoINIDgFdFqAJqbnZXa7pOj1V21u0o/OXAKYRQdOLqS6TLMFLn//sjMmnhJgx34rHA6LTcpSMxruf1HbGnh7sAWQzsiBSrl2vpC3zLyQYJA/fdMEnQ9ZXPcR7GbyYaY2RPueRTvr0pN2X4LpYUXnLKKtO3yb1cqFE4rw2Rsh3J/hTApvo+iz+N2nhqYDj75Jif9TxBEQGTkiWjbyAktl9mXtXBGwJUf1k5BsHWwqrc9995AtysPqlH3qOg0+QInE39thboYSzBWCYB6xgFvI2WVCq0Uzoi4+ml+Zjxci6nTTwUZBqKFL5J/kzO1B+zu6vaag1Sy7lenxZJCsQaYSJXB97Fy7Ei+W77K99oe2oAacNNu0hbbCsXS5OjOa3sWw4K6XvQcVbOX68TPjyW/QtCb2wOeoWLpQylBEYswlMnge8kz+8ELZZmEsUs09cflvBy9i0tEvR3RXyffpmt1Unepp6mJMrol5Fq1wIs/5F/8mAJ35Hv35Rrz5qxXoVQMxlZEOzRGj3hHnbH/h+Na0BXT+Elci2NSU=
